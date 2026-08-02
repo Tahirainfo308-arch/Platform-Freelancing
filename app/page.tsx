@@ -49,7 +49,7 @@ export default function Home() {
         <div className="pointer-events-none absolute -left-40 top-36 h-96 w-96 rounded-full bg-brand-100/70 blur-3xl" />
         <div className="page-shell relative grid min-h-[720px] items-center gap-14 py-16 lg:grid-cols-[1.02fr_0.98fr] lg:py-20">
           <div className="animate-fade-up">
-            <div className="eyebrow"><Sparkles className="h-3.5 w-3.5" /> Built for Pakistan&apos;s next economy</div>
+            <div className="eyebrow"><Sparkles className="h-3.5 w-3.5" /> Workly Task Marketplace</div>
             <h1 className="mt-7 max-w-3xl text-balance text-[44px] font-black leading-[0.98] tracking-[-0.055em] text-ink sm:text-6xl lg:text-[76px]">
               The right person for <span className="relative whitespace-nowrap text-brand">every task.<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-1 rounded-full bg-sun/55" /></span>
             </h1>

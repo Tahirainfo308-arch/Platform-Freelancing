@@ -13,7 +13,7 @@ const columns = {
     { label: "Safety & trust", href: "/#protect" },
     { label: "Workly Protect", href: "/#protect" },
     { label: "Private fulfilment", href: "/#managed" },
-    { label: "Help centre", href: "/messages" },
+    { label: "Help centre", href: "/help" },
   ],
 };
 

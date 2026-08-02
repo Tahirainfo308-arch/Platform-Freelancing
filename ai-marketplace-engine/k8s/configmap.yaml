@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ame-config
+  namespace: default
+data:
+  AME_HOST: "0.0.0.0"
+  AME_PORT: "8000"
+  AME_DEBUG: "false"
+  MARKETPLACE_BASE_URL: "http://workly-marketplace-svc:3000"
+  MARKETPLACE_WEBHOOK_PATH: "/api/webhooks/ame"
+  DATABASE_URL: "postgresql+asyncpg://postgres:postgres@ame-postgres-svc:5432/ame_db"
+  REDIS_URL: "redis://ame-redis-svc:6379/0"

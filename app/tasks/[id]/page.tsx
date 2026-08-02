@@ -11,10 +11,11 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
-import { MapPin, Calendar, User, MessageSquare, CheckCircle2, Clock, Star, Gavel, ShieldCheck, Zap, ArrowLeft, Send, Banknote, Tag } from "lucide-react";
+import { MapPin, Calendar, User, MessageSquare, CheckCircle2, Clock, Star, Gavel, ShieldCheck, Sparkles, Zap, ArrowLeft, Send, Banknote, Tag } from "lucide-react";
 import { formatDate, formatPKR } from "@/lib/format";
+import { collection, getDocs, query, where, limit } from "firebase/firestore";
 
-type BidView = Bid & { match?: BidMatch; fresh?: boolean };
+type BidView = Bid & { match?: BidMatch; fresh?: boolean; aiVettedScore?: number; aiInterviewReport?: any };
 
 const STATUS_TAGS: Record<string, { label: string; color: string }> = {
   pending: { label: "Pending Approval", color: "bg-amber-50 text-amber-700 border-amber-200" },
@@ -34,6 +35,8 @@ export default function TaskDetailPage() {
   const [task, setTask] = useState<Task | null>(null);
   const [bids, setBids] = useState<BidView[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [myBid, setMyBid] = useState<BidView | null>(null);
+  const [selectedReport, setSelectedReport] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [amount, setAmount] = useState("");
@@ -67,6 +70,23 @@ export default function TaskDetailPage() {
       }));
       withMatch.sort((a, b) => (b.match?.percent ?? 0) - (a.match?.percent ?? 0));
       setBids(withMatch);
+
+      // Load freelancer's own bid if applicable
+      if (user && role === "tasker" && db) {
+        const myBidsSnap = await getDocs(query(
+          collection(db, "bids"),
+          where("taskId", "==", id),
+          where("bidderId", "==", user.uid),
+          limit(1)
+        ));
+        if (!myBidsSnap.empty) {
+          const myB = { id: myBidsSnap.docs[0].id, ...myBidsSnap.docs[0].data() } as BidView;
+          setMyBid(myB);
+        } else {
+          setMyBid(null);
+        }
+      }
+
       if (t.assignedTo) setReviews(await listReviewsForUser(t.assignedTo));
     } catch (err: any) {
       setError(err?.message || "This task is not available to this account.");
@@ -211,15 +231,61 @@ export default function TaskDetailPage() {
                   <div>
                     <div className="flex items-center gap-2"><p className="font-bold text-ink">{b.bidderName}</p><span className="text-lg font-extrabold text-brand">{formatPKR(b.amount)}</span></div>
                     <p className="mt-0.5 text-sm text-ink-500">{b.message}</p>
-                    <div className="mt-1.5 flex gap-2 flex-wrap">
+                    <div className="mt-1.5 flex gap-2 flex-wrap items-center">
                       {b.match && <span className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-semibold text-brand-dark">Match {b.match.percent}%</span>}
                       {b.fresh && <span className="rounded-full bg-green-50 px-2 py-0.5 text-xs font-semibold text-green-700"><Zap className="mr-1 inline-block h-3 w-3" /> Fresh</span>}
+                      {b.aiVettedScore && (
+                        <span className="rounded-full bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 flex items-center gap-1 shadow-sm">
+                          <Sparkles className="h-3 w-3 fill-indigo-200 animate-pulse" /> AI Vetted: {b.aiVettedScore}%
+                        </span>
+                      )}
+                      {b.aiInterviewReport && (
+                        <button 
+                          onClick={() => setSelectedReport(b.aiInterviewReport)}
+                          className="text-xs font-black text-brand hover:text-brand-dark transition flex items-center gap-1 bg-brand-50 px-2.5 py-0.5 rounded-full"
+                        >
+                          View AI Report
+                        </button>
+                      )}
                     </div>
                   </div>
                   <Button onClick={() => chooseBid(b)} className="shrink-0">Select & hold funds</Button>
                 </div>
               ))}
             </div>}
+        </div>
+      )}
+
+      {/* Freelancer AI Vetting Status / Prompt */}
+      {myBid && !myBid.aiVettedScore && task.status === "open" && (
+        <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-brand-50 border border-brand-200 p-6 sm:flex-row sm:items-center sm:justify-between shadow-sm">
+          <div>
+            <h2 className="text-lg font-black text-brand-dark flex items-center gap-1.5">
+              <Sparkles className="h-5 w-5 fill-brand/20 animate-pulse text-brand" /> Boost Your Offer with AI Vetting
+            </h2>
+            <p className="mt-1 text-sm text-ink-600">
+              Clients are <strong>4x more likely</strong> to assign tasks to AI-vetted professionals. Complete a quick technical interview.
+            </p>
+          </div>
+          <Link href={`/tasks/${id}/interview`} className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-extrabold text-white shrink-0 hover:bg-brand-dark transition shadow-sm">
+            Start AI Vetting
+          </Link>
+        </div>
+      )}
+
+      {myBid && myBid.aiVettedScore && (
+        <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-slate-900 text-white p-6 sm:flex-row sm:items-center sm:justify-between shadow-elevated">
+          <div>
+            <h2 className="text-lg font-black flex items-center gap-1.5">
+              <ShieldCheck className="h-5 w-5 text-brand-light" /> AI Vetted Pitch
+            </h2>
+            <p className="mt-1 text-sm text-white/70">
+              Your offer is boosted! You scored <strong>{myBid.aiVettedScore}%</strong> in the vetting screening.
+            </p>
+          </div>
+          <button onClick={() => setSelectedReport(myBid.aiInterviewReport)} className="inline-flex min-h-11 items-center justify-center rounded-xl bg-white px-5 text-sm font-extrabold text-ink hover:bg-brand-100 transition shrink-0">
+            View AI Report
+          </button>
         </div>
       )}
 
@@ -231,7 +297,10 @@ export default function TaskDetailPage() {
             <Input type="number" min={500} step={100} placeholder="Your offer (PKR)" value={amount} onChange={(e) => setAmount(e.target.value)} required />
             <Input placeholder="Why should you be hired?" value={message} onChange={(e) => setMessage(e.target.value)} />
           </div>
-          <Button type="submit" className="mt-3 rounded-xl">Submit offer</Button>
+          <div className="mt-3 flex items-center justify-between flex-wrap gap-2">
+            <Button type="submit" className="rounded-xl">Submit offer</Button>
+            <p className="text-xs text-ink-400 font-medium">After submitting, you can boost your rank with a quick AI Interview.</p>
+          </div>
         </form>
       )}
 
@@ -322,6 +391,69 @@ export default function TaskDetailPage() {
                 {r.comment && <p className="mt-2 text-sm text-ink-500">{r.comment}</p>}
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* AI Report Modal */}
+      {selectedReport && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-elevated animate-fade-up">
+            {/* Modal Header */}
+            <div className="bg-ink p-5 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-brand" />
+                <h3 className="text-lg font-black">AI Vetting Report</h3>
+              </div>
+              <button 
+                onClick={() => setSelectedReport(null)}
+                className="rounded-full bg-white/10 hover:bg-white/20 px-3 py-1 text-xs font-bold text-white transition"
+              >
+                Close
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="max-h-[70vh] overflow-y-auto p-6 space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                  <p className="text-[10px] font-bold text-ink-400 uppercase tracking-wider">AI Vetted Score</p>
+                  <p className="text-3xl font-black text-brand-dark">{selectedReport.score}%</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[10px] font-bold text-ink-400 uppercase tracking-wider">Communication Quality</p>
+                  <p className="text-lg font-black text-ink mt-0.5">{selectedReport.communication}</p>
+                </div>
+              </div>
+
+              {/* Strengths */}
+              <div>
+                <h4 className="font-extrabold text-ink text-sm mb-2">Strengths Identified</h4>
+                <ul className="space-y-1.5">
+                  {selectedReport.strengths.map((str: string, i: number) => (
+                    <li key={i} className="flex gap-2 text-sm text-ink-600 items-start">
+                      <span className="text-brand font-black">•</span>
+                      <span>{str}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Transcript */}
+              <div>
+                <h4 className="font-extrabold text-ink text-sm border-t border-slate-100 pt-4 mb-3">Interview Transcript</h4>
+                <div className="space-y-4 rounded-2xl bg-canvas p-4 max-h-[300px] overflow-y-auto">
+                  {selectedReport.transcript.map((msg: any, i: number) => (
+                    <div key={i} className="space-y-1">
+                      <p className={`text-[10px] font-extrabold uppercase tracking-wider ${
+                        msg.role === "Candidate" ? "text-ink-600 font-bold" : "text-brand font-bold"
+                      }`}>{msg.role}</p>
+                      <p className="text-sm text-ink-700 bg-white border border-slate-100 rounded-xl p-3 shadow-sm inline-block max-w-[90%]">{msg.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}

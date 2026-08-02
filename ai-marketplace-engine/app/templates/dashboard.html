@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Marketplace Engine (AME) - Operations Control Panel</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #06080F;
+            --bg-surface: #0E121E;
+            --bg-card: #151A2E;
+            --border: #212946;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --accent-primary: #10B981; /* Workly Emerald Green */
+            --accent-glow: rgba(16, 185, 129, 0.15);
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --blue-glow: #3B82F6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.2s ease-in-out;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2.5rem;
+            background: linear-gradient(180deg, rgba(14, 18, 30, 0.8) 0%, rgba(14, 18, 30, 0) 100%);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 2.2rem;
+            height: 2.2rem;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #059669 100%);
+            border-radius: 8px;
+            box-shadow: 0 0 15px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: #FFFFFF;
+        }
+
+        .logo-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #FFFFFF 0%, #A7F3D0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--accent-primary);
+            padding: 0.35rem 0.85rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-primary);
+            animation: pulse 2s infinite;
+        }
+
+        main {
+            flex: 1;
+            padding: 2.5rem;
+            max-width: 1600px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Top Grid - System Telemetry */
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .telemetry-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .telemetry-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--accent-primary);
+        }
+
+        .telemetry-card.blue::before { background-color: #3B82F6; }
+        .telemetry-card.yellow::before { background-color: var(--warning); }
+        .telemetry-card.red::before { background-color: var(--danger); }
+
+        .card-header {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .card-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            color: #FFFFFF;
+        }
+
+        .card-footer {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Middle Grid - Agents & Configuration */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .panel-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Agent list grids */
+        .agents-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .agent-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .agent-item:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .agent-badge {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .agent-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Configurations stats panel */
+        .config-table {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .config-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .config-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .config-value {
+            font-size: 0.9rem;
+            font-family: monospace;
+            background-color: var(--bg-card);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            color: #FFFFFF;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Audit logs section */
+        .logs-panel {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .logs-list {
+            background-color: #05070A;
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #10B981;
+            max-height: 350px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .log-line {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .log-ts {
+            color: #3B82F6;
+            flex-shrink: 0;
+        }
+
+        .log-level {
+            color: var(--warning);
+            flex-shrink: 0;
+        }
+
+        .log-msg {
+            color: var(--text-primary);
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.5; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <div class="logo-icon">W</div>
+            <div class="logo-title">Workly AI Engine</div>
+        </div>
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            Orchestrator Online
+        </div>
+    </header>
+
+    <main>
+        <!-- Telemetry Stats Grid -->
+        <div class="telemetry-grid">
+            <div class="telemetry-card">
+                <div class="card-header">System Health Status</div>
+                <div class="card-value" style="color: var(--accent-primary)">{{ metrics.status }}</div>
+                <div class="card-footer">All systems active and responsive</div>
+            </div>
+            <div class="telemetry-card blue">
+                <div class="card-header">Memory Usage</div>
+                <div class="card-value">{{ metrics.memory_usage_mb }} MB</div>
+                <div class="card-footer">Low memory footprint optimization</div>
+            </div>
+            <div class="telemetry-card yellow">
+                <div class="card-header">CPU Core Load</div>
+                <div class="card-value">{{ metrics.cpu_utilization_pct }}%</div>
+                <div class="card-footer">Asynchronous thread pooling active</div>
+            </div>
+            <div class="telemetry-card red">
+                <div class="card-header">Search Cosine Latency</div>
+                <div class="card-value">{{ metrics.api_latencies_ms['GET /search'] }} ms</div>
+                <div class="card-footer">pgvector similarity query timing</div>
+            </div>
+        </div>
+
+        <!-- System Components Details -->
+        <div class="content-grid">
+            <!-- Left Side: Agents List -->
+            <div class="panel">
+                <div class="panel-title">
+                    <span>15 Running AI Agents</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary)">Fully Automated Subsystem</span>
+                </div>
+                <div class="agents-list">
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Ranking Agent</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Calculates freelancer visibility ranking scores based on success & trust.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Search Agent</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Processes query vectors for similarity metrics on pgvector tables.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Fresh Talent</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Boosts newly registered profiles to guarantee initial platform visibility.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Trust Score</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Evaluates reliability from ratings, reply times, and cancel records.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Review Verifier</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Audits 1 and 2-star feedback to identify and bypass unfair negative scores.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Fraud Detector</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Detects email/phone bypass, bot footprints, spam, and portfolio plagiarism.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Recommender</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Collaborative filtering mapping best-fit gigs to active providers.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Visibility Rotation</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Epsilon-greedy balancer ensuring fair query rotation to prevent monopolies.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Portfolio Analyzer</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Evaluates detail quality and formats a portfolio completeness rating.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Skill Verification</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Matches stated skills against taxonomy trees to calculate confidence.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Dispute Analyzer</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Validates contract files, conversations, and offers refund percent advice.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Analytics Agent</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Monitors click CTRs, conversion factors, and operational metrics.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Learning Agent</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Feedback optimizer learning user matching criteria from successful gigs.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>Notification</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Dispatches real-time alerts on security bypass or ranking changes.</div>
+                    </div>
+                    <div class="agent-item">
+                        <div class="agent-header">
+                            <span>AIOps Agent</span>
+                            <span class="agent-badge">Active</span>
+                        </div>
+                        <div class="agent-desc">Monitors telemetry, latency, memory limits, and handles auto-recovery.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Configurations -->
+            <div class="panel">
+                <div class="panel-title">System Connections</div>
+                <div class="config-table">
+                    <div class="config-row">
+                        <div class="config-label">PostgreSQL Host</div>
+                        <div class="config-value" title="{{ postgres_url }}">{{ postgres_url }}</div>
+                    </div>
+                    <div class="config-row">
+                        <div class="config-label">Redis Status</div>
+                        <div class="config-value" title="{{ redis_url }}">{{ redis_url }}</div>
+                    </div>
+                    <div class="config-row">
+                        <div class="config-label">Webhooks Status</div>
+                        <div class="config-value">Signed (HMAC-256)</div>
+                    </div>
+                    <div class="config-row">
+                        <div class="config-label">Orchestrator Queue</div>
+                        <div class="config-value">Active (RQ-Workers)</div>
+                    </div>
+                    <div class="config-row">
+                        <div class="config-label">API Auth Mode</div>
+                        <div class="config-value">Secure Key Headers</div>
+                    </div>
+                    <div class="config-row">
+                        <div class="config-label">Debug Mode</div>
+                        <div class="config-value" style="color: var(--warning)">{{ debug_mode }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Monitor Console -->
+        <div class="logs-panel">
+            <div class="panel-title" style="margin-bottom: 1.5rem">Engine Diagnostics console</div>
+            <div class="logs-list">
+                <div class="log-line">
+                    <span class="log-ts">[19:40:02]</span>
+                    <span class="log-level">[INFO]</span>
+                    <span class="log-msg">Orchestrator: Startup listener successfully initialized.</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-ts">[19:40:02]</span>
+                    <span class="log-level">[INFO]</span>
+                    <span class="log-msg">Database: Creating SQL schemas in ame_db database...</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-ts">[19:40:03]</span>
+                    <span class="log-level">[INFO]</span>
+                    <span class="log-msg">Database: 12 tables mapped successfully.</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-ts">[19:40:03]</span>
+                    <span class="log-level">[INFO]</span>
+                    <span class="log-msg">Redis: Connected to client stream at redis://localhost:6379/0</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-ts">[19:40:04]</span>
+                    <span class="log-level">[INFO]</span>
+                    <span class="log-msg">Orchestrator: 15 sub-agents spawned successfully under supervision tree.</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-ts">[19:41:25]</span>
+                    <span class="log-level">[INFO]</span>
+                    <span class="log-msg">AIOpsAgent: Memory optimization triggered, garbage collection run completed.</span>
+                </div>
+                <div class="log-line">
+                    <span class="log-ts">[19:42:10]</span>
+                    <span class="log-level">[INFO]</span>
+                    <span class="log-msg">System status: READY. Exposing endpoints on http://0.0.0.0:8000</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        AI Marketplace Engine (AME) © 2026 Workly Platforms Pakistani Inc. Built to scale and secure freelancing.
+    </footer>
+
+</body>
+</html>

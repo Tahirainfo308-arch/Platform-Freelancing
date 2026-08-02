@@ -1,0 +1,72 @@
+services:
+  # -------------------------------------------------------------
+  # AME Database - PostgreSQL with persistence
+  # -------------------------------------------------------------
+  ame-db:
+    image: postgres:15-alpine
+    container_name: ame_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ame_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ame_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------
+  # AME Cache & Event Bus - Redis
+  # -------------------------------------------------------------
+  ame-redis:
+    image: redis:7-alpine
+    container_name: ame_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # -------------------------------------------------------------
+  # AME FastAPI Service
+  # -------------------------------------------------------------
+  ame-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ame_api
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - AME_HOST=0.0.0.0
+      - AME_PORT=8000
+      - AME_DEBUG=true
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@ame-db:5432/ame_db
+      - REDIS_URL=redis://ame-redis:6379/0
+      - AME_API_KEY=workly_ame_secret_key
+      - AME_WEBHOOK_SECRET=workly_ame_webhook_secret
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY:-}
+      - MARKETPLACE_BASE_URL=http://host.docker.internal:3000
+    depends_on:
+      ame-db:
+        condition: service_healthy
+      ame-redis:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  postgres_data:
+  redis_data:

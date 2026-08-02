@@ -14,15 +14,17 @@ import {
   Search,
   ShieldCheck,
   Sparkles,
+  Star,
   TrendingUp,
   Wallet,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 import { listTasksByPoster, listBidsByUser, listPublicTasks, getTask, type Task, type Bid } from "@/lib/tasks";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, query, where, limit } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import Button from "@/components/ui/Button";
 import { formatPKR } from "@/lib/format";
+import { computeBidMatch, rankScore } from "@/lib/matching";
 
 type BidWithTask = Bid & { task?: Task | null };
 type View = "client" | "tasker";
@@ -32,6 +34,8 @@ export default function DashboardPage() {
   const [posted, setPosted] = useState<Task[]>([]);
   const [opportunities, setOpportunities] = useState<Task[]>([]);
   const [myBids, setMyBids] = useState<BidWithTask[]>([]);
+  const [recommendedTasks, setRecommendedTasks] = useState<(Task & { matchPercent: number })[]>([]);
+  const [recommendedTalent, setRecommendedTalent] = useState<any[]>([]);
   const [wallet, setWallet] = useState(0);
   const [busy, setBusy] = useState(true);
   const [view, setView] = useState<View>("client");
@@ -48,15 +52,61 @@ export default function DashboardPage() {
         if (role === "tasker") {
           const [available, bids] = await Promise.all([listPublicTasks(), listBidsByUser(user.uid)]);
           const withTasks = await Promise.all(bids.map(async (bid) => ({ ...bid, task: await getTask(bid.taskId) })));
-          setOpportunities(available.filter((task) => task.status === "open"));
+          const openOpportunities = available.filter((task) => task.status === "open");
+          setOpportunities(openOpportunities);
           setMyBids(withTasks);
           setPosted([]);
+
+          // AI recommended tasks based on freelancer skills
+          if (db) {
+            const userSnap = await getDoc(doc(db, "users", user.uid));
+            const freelancerSkills = userSnap.exists() ? (userSnap.data().skills || []) : [];
+            const trust = userSnap.exists() ? (userSnap.data().trustScore ?? 70) : 70;
+            const success = userSnap.exists() ? (userSnap.data().successRate ?? 80) : 80;
+
+            const scored = openOpportunities.map((task) => {
+              const match = computeBidMatch(task, { trust, success, skills: freelancerSkills });
+              return { ...task, matchPercent: match.percent };
+            });
+            scored.sort((a, b) => b.matchPercent - a.matchPercent);
+            setRecommendedTasks(scored.slice(0, 5));
+          }
         } else {
-          setPosted(await listTasksByPoster(user.uid));
+          const postedTasks = await listTasksByPoster(user.uid);
+          setPosted(postedTasks);
           setOpportunities([]);
           setMyBids([]);
+
+          // AI recommended talent matching the client's task categories
+          if (db) {
+            const clientCategories = Array.from(new Set(postedTasks.map((t) => t.category)));
+            const q = query(collection(db, "users"), where("role", "==", "tasker"), limit(20));
+            const snap = await getDocs(q);
+            const allFreelancers = snap.docs
+              .map((d) => ({ uid: d.id, ...d.data() } as any))
+              .filter((f) => f.uid !== user.uid);
+
+            const scored = allFreelancers.map((f) => {
+              const overlappingSkills = (f.skills || []).filter((s: string) =>
+                clientCategories.includes(s) ||
+                clientCategories.some(
+                  (cat) =>
+                    s.toLowerCase().includes(cat.toLowerCase()) ||
+                    cat.toLowerCase().includes(s.toLowerCase())
+                )
+              );
+              const similarity = overlappingSkills.length > 0 ? 0.95 : 0.45;
+              const trust = f.trustScore ?? 70;
+              const success = f.successRate ?? 80;
+              const score = rankScore({ similarity, trust, success });
+              return { ...f, matchPercent: Math.round(score * 100) };
+            });
+            scored.sort((a, b) => b.matchPercent - a.matchPercent);
+            setRecommendedTalent(scored.slice(0, 5));
+          }
         }
-      } catch {
+      } catch (err) {
+        console.error("Dashboard data load error", err);
         setPosted([]);
         setOpportunities([]);
         setMyBids([]);
@@ -178,6 +228,98 @@ export default function DashboardPage() {
               <ArrowRight className="h-4 w-4 text-ink-300 transition group-hover:translate-x-1 group-hover:text-brand" />
             </Link>
           </aside>
+        </div>
+
+        {/* AI Recommendations Section */}
+        <div className="mt-8">
+          {view === "tasker" ? (
+            <section className="surface overflow-hidden">
+              <div className="flex items-center justify-between border-b border-ink-100 p-5 sm:p-6 bg-gradient-to-r from-brand-50/40 to-transparent">
+                <div>
+                  <p className="flex items-center gap-1 text-[10px] font-black uppercase tracking-[0.15em] text-brand">
+                    <Sparkles className="h-3.5 w-3.5 fill-brand/20" /> AI Recommended
+                  </p>
+                  <h2 className="mt-1 text-xl font-black text-ink">Handpicked tasks matching your skills</h2>
+                </div>
+                <Link href="/profile" className="text-xs font-extrabold text-brand-dark hover:underline">Update skills</Link>
+              </div>
+              {recommendedTasks.length === 0 ? (
+                <p className="p-6 text-sm font-medium text-ink-500">No matching tasks found. Try adding more skills to your profile!</p>
+              ) : (
+                <div className="divide-y divide-ink-100">
+                  {recommendedTasks.map((task) => (
+                    <Link key={task.id} href={`/tasks/${task.id}`} className="group flex items-center gap-4 p-5 transition hover:bg-brand-50/20 sm:p-6">
+                      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand"><Sparkles className="h-5 w-5" /></span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-black text-ink group-hover:text-brand-dark">{task.title}</p>
+                        <p className="mt-1 truncate text-xs font-semibold text-ink-400">{task.category} · {task.location} · {task.bidsCount} offers</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-black text-brand-dark">{task.matchPercent}% Match</p>
+                        <p className="mt-0.5 text-xs font-semibold text-ink-500">{formatPKR(task.budget)}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </section>
+          ) : (
+            <section className="surface overflow-hidden">
+              <div className="flex items-center justify-between border-b border-ink-100 p-5 sm:p-6 bg-gradient-to-r from-brand-50/40 to-transparent">
+                <div>
+                  <p className="flex items-center gap-1 text-[10px] font-black uppercase tracking-[0.15em] text-brand">
+                    <Sparkles className="h-3.5 w-3.5 fill-brand/20" /> AI Recommended
+                  </p>
+                  <h2 className="mt-1 text-xl font-black text-ink">Top talent matched for your projects</h2>
+                </div>
+                <Link href="/tasks" className="text-xs font-extrabold text-brand-dark hover:underline">Browse all tasks</Link>
+              </div>
+              {recommendedTalent.length === 0 ? (
+                <p className="p-6 text-sm font-medium text-ink-500">Post a task first to get tailored talent recommendations!</p>
+              ) : (
+                <div className="divide-y divide-ink-100">
+                  {recommendedTalent.map((freelancer) => (
+                    <div key={freelancer.uid} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 hover:bg-brand-50/5 transition">
+                      <div className="flex items-start gap-4">
+                        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brand text-white font-black text-lg">
+                          {freelancer.avatarUrl ? (
+                            <img src={freelancer.avatarUrl} alt="" className="h-full w-full rounded-xl object-cover" />
+                          ) : (
+                            (freelancer.name || "F")[0].toUpperCase()
+                          )}
+                        </span>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <h3 className="font-extrabold text-ink">{freelancer.name}</h3>
+                            {freelancer.trustScore >= 80 && <BadgeCheck className="h-4 w-4 text-brand" />}
+                            <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-bold text-brand-dark">{freelancer.matchPercent}% AI Match</span>
+                          </div>
+                          <p className="text-xs font-semibold text-ink-400">{freelancer.professionalTitle || "Freelancer"}</p>
+                          <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            {(freelancer.skills || []).slice(0, 3).map((s: string) => (
+                              <span key={s} className="rounded-full bg-ink-50 px-2.5 py-1 text-[10px] font-extrabold text-ink-500">{s}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-6 justify-between sm:justify-end shrink-0">
+                        <div className="text-left sm:text-right">
+                          <div className="flex items-center gap-1 text-sm font-bold text-ink">
+                            <Star className="h-4 w-4 fill-sun text-sun" />
+                            <span>{freelancer.trustScore ?? 70} Trust</span>
+                          </div>
+                          <p className="mt-0.5 text-xs text-ink-400">{freelancer.successRate ?? 80}% success rate</p>
+                        </div>
+                        <Link href={`/u/${freelancer.uid}`}>
+                          <Button variant="ghost" className="text-xs h-9 rounded-xl border border-ink-100 hover:bg-ink-50">View Profile</Button>
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
         </div>
 
         {view === "tasker" && (
