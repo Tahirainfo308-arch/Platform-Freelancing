@@ -73,7 +73,7 @@ test("freelancers see opportunities but cannot post tasks", async () => {
   const dashboard = await read("app/dashboard/page.tsx");
   const tasksPage = await read("app/tasks/page.tsx");
   assert.match(dashboard, /listPublicTasks\(\)/);
-  assert.match(dashboard, /Tasks you can bid on/);
+  assert.match(dashboard, /Recommended jobs for you/);
   assert.match(tasksPage, /\{canPost && <Link href="\/post"/);
 });
 

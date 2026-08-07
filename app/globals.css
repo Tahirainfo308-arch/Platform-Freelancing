@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --brand: #176bff;
-  --ink: #07182e;
-  --canvas: #f5f7fb;
+  --brand: #00cb75;
+  --deep: #00501f;
+  --ink: #1e293b;
+  --canvas: #f9f9f9;
 }
 
 html,
@@ -37,8 +38,8 @@ p {
 }
 
 ::selection {
-  background: #bdd6ff;
-  color: #07182e;
+  background: #ccf7e2;
+  color: #00501f;
 }
 
 button,
@@ -54,7 +55,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid rgb(23 107 255 / 0.22);
+  outline: 3px solid rgb(0 203 117 / 0.25);
   outline-offset: 2px;
 }
 
@@ -63,22 +64,22 @@ textarea:focus-visible {
     text-wrap: balance;
   }
   .page-shell {
-    @apply mx-auto w-full max-w-[1320px] px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
   }
   .surface {
-    @apply rounded-[24px] border border-ink-100/90 bg-white shadow-card;
+    @apply rounded-2xl border border-ink-100 bg-white shadow-card;
   }
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-brand-dark;
+    @apply inline-flex items-center gap-2 rounded-full border border-mint-200 bg-mint-50 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-deep;
   }
   .soft-grid {
     background-image:
-      linear-gradient(rgb(23 107 255 / 0.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(23 107 255 / 0.045) 1px, transparent 1px);
+      linear-gradient(rgb(0 203 117 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(0 203 117 / 0.05) 1px, transparent 1px);
     background-size: 34px 34px;
   }
   .noise {
-    background-image: radial-gradient(rgb(255 255 255 / 0.15) 0.7px, transparent 0.7px);
+    background-image: radial-gradient(rgb(255 255 255 / 0.12) 0.7px, transparent 0.7px);
     background-size: 7px 7px;
   }
   .animate-fade-up {
@@ -89,6 +90,12 @@ textarea:focus-visible {
   }
   .animate-slide-up {
     animation: slideUp 0.4s ease-out both;
+  }
+  .animate-pulse-soft {
+    animation: pulseSoft 1.6s ease-in-out infinite;
+  }
+  .animate-breathe {
+    animation: breathe 2.4s ease-in-out infinite;
   }
 }
 
@@ -109,6 +116,16 @@ textarea:focus-visible {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.08); opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

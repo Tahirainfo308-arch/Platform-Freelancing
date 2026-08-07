@@ -30,8 +30,10 @@ export default function TasksPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const initialCategory = params.get("category") || "all";
+    const initialSearch = params.get("q") || "";
     setCategory(CATEGORIES.includes(initialCategory) ? initialCategory : "all");
-    load(CATEGORIES.includes(initialCategory) ? initialCategory : "all", "");
+    setSearch(initialSearch);
+    load(CATEGORIES.includes(initialCategory) ? initialCategory : "all", initialSearch);
   }, []);
 
   const clear = () => {
