@@ -45,7 +45,7 @@ export default function MessagesPage() {
   return (
     <div className="bg-canvas py-8 sm:py-10">
       <div className="page-shell max-w-5xl">
-      <div className="overflow-hidden rounded-[32px] bg-ink p-6 text-white shadow-elevated sm:p-8">
+      <div className="overflow-hidden rounded-[32px] bg-[#00501F] p-6 text-white shadow-elevated sm:p-8">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
             <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand"><MessageSquare className="h-7 w-7" /></span>

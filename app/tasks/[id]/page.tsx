@@ -189,7 +189,7 @@ export default function TaskDetailPage() {
           {task.heldAmount && <span className="flex items-center gap-1.5 text-ink-500"><Banknote className="h-4 w-4" />{formatPKR(task.heldAmount)} held</span>}
           {paymentDone && <span className="flex items-center gap-1.5 text-green-600 font-semibold"><CheckCircle2 className="h-4 w-4" />Paid</span>}
         </div>
-        {task.assignedName && <div className="mt-5 flex items-center gap-2 rounded-xl bg-ink-50 p-3 text-sm text-ink-500"><ShieldCheck className="h-4 w-4 text-brand" />Assigned to <Link href={`/u/${task.assignedTo}`} className="font-extrabold text-ink hover:text-brand">{task.assignedName}</Link>{task.visibility === "private" && <span className="ml-auto rounded-full bg-ink px-2.5 py-1 text-[10px] font-black uppercase text-white">Managed private</span>}</div>}
+        {task.assignedName && <div className="mt-5 flex items-center gap-2 rounded-xl bg-ink-50 p-3 text-sm text-ink-500"><ShieldCheck className="h-4 w-4 text-brand" />Assigned to <Link href={`/u/${task.assignedTo}`} className="font-extrabold text-ink hover:text-brand">{task.assignedName}</Link>{task.visibility === "private" && <span className="ml-auto rounded-full bg-[#00501F] px-2.5 py-1 text-[10px] font-black uppercase text-white">Managed private</span>}</div>}
 
         {/* Chat button */}
         {task.assignedTo && (isPoster || isAssigned) && (
@@ -236,7 +236,7 @@ export default function TaskDetailPage() {
       )}
 
       {!user && task.status === "open" && task.visibility === "public" && (
-        <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-ink p-6 text-white sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-[#00501F] p-6 text-white sm:flex-row sm:items-center sm:justify-between">
           <div><h2 className="text-lg font-black">Want to send an offer?</h2><p className="mt-1 text-sm text-white/55">Join Workly to bid, message and receive protected payments.</p></div>
           <Link href={`/login?redirect=/tasks/${id}`} className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-extrabold text-white">Sign in to bid</Link>
         </div>

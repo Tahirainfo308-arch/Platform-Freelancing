@@ -46,7 +46,7 @@ export default function ConversationPage() {
     <div className="bg-canvas py-4 sm:py-6">
       <div className="page-shell max-w-4xl">
       <div className="flex h-[calc(100vh-8rem)] flex-col overflow-hidden rounded-[28px] border border-ink-100 bg-white shadow-card">
-        <div className="flex shrink-0 items-center justify-between border-b border-ink-100 bg-ink px-4 py-4 text-white sm:px-5">
+        <div className="flex shrink-0 items-center justify-between border-b border-white/10 bg-[#00501F] px-4 py-4 text-white sm:px-5">
           <div className="flex items-center gap-3">
             <Link href="/messages" className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-white transition hover:bg-white/15" aria-label="Back to messages"><ArrowLeft className="h-4 w-4" /></Link>
             <div><p className="text-xs font-black uppercase tracking-[0.14em] text-brand-300">Task chat</p><h1 className="text-base font-black">Delivery conversation</h1></div>
