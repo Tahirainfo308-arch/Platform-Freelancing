@@ -153,7 +153,7 @@ export default function Home() {
             <div className="animate-fade-up">
               <h1 className="max-w-3xl text-balance text-[1.75rem] font-bold leading-[1.2] tracking-[-0.02em] text-deep sm:text-[2.125rem] lg:text-[2.375rem]">
                 Pakistan&apos;s Smarter Freelancing Marketplace,{" "}
-                <span className="relative whitespace-nowrap text-brand-600">Powered by AI.<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-1 rounded-full bg-brand/40" /></span>
+                <span className="whitespace-nowrap text-brand-600">Powered by AI.</span>
               </h1>
               <p className="mt-6 max-w-xl text-base font-medium leading-7 text-ink-500">
                 Connect with verified talent, discover the right opportunities, and build your freelance career with intelligent AI-powered matching.

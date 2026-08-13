@@ -3,7 +3,7 @@ import { BadgeCheck, ShieldCheck, Sparkles, Star } from "lucide-react";
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid min-h-[calc(100vh-72px)] bg-white lg:grid-cols-[0.9fr_1.1fr]">
-      <aside className="relative hidden overflow-hidden bg-[#00501F] p-12 text-white lg:flex lg:flex-col lg:justify-between xl:p-16">
+      <aside className="relative hidden overflow-hidden bg-[#00501F] p-12 text-white lg:flex lg:flex-col xl:p-16">
         <div className="absolute inset-0 noise opacity-50" />
         <div className="absolute -left-32 bottom-10 h-96 w-96 rounded-full bg-brand/25 blur-3xl" />
         <div className="relative">
@@ -11,7 +11,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           <h1 className="mt-8 max-w-lg text-5xl font-black leading-[1.02] tracking-[-0.05em]">One account. Two ways to move forward.</h1>
           <p className="mt-5 max-w-lg text-base font-medium leading-7 text-white/55">Hire trusted professionals when you need help. Switch to earning mode when your skills can help someone else.</p>
         </div>
-        <div className="relative">
+        <div className="relative mt-16">
           <div className="max-w-lg rounded-3xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur">
             <div className="flex gap-0.5">{[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 fill-sun text-sun" />)}</div>
             <p className="mt-4 text-lg font-black leading-7">&ldquo;Clear offers, secure payments and no confusion about who is responsible for what.&rdquo;</p>
