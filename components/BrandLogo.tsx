@@ -17,7 +17,7 @@ export default function BrandLogo({
         <img src="/workly-mark.png" alt="" className="h-[82%] w-[82%] object-contain" />
       </span>
       <span className={`whitespace-nowrap font-black leading-none tracking-[-0.045em] ${compact ? "text-xl" : "text-[22px]"} ${inverted ? "text-white" : "text-deep"}`}>
-        Parwaz<span className="text-gold-600">.pk</span>
+        Parwaz<span className={inverted ? "text-brand-300" : "text-brand-600"}>.pk</span>
       </span>
     </Link>
   );

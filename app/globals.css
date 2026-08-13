@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --brand: #00cb75;
-  --deep: #006d5b;
+  --brand: #228b22;
+  --deep: #2f4f4f;
   --ink: #1e293b;
   --canvas: #f9f9f9;
 }
@@ -26,6 +26,7 @@ h1,
 h2,
 h3,
 h4 {
+  font-family: "Playfair Display", Georgia, serif;
   text-wrap: balance;
 }
 
@@ -38,8 +39,8 @@ p {
 }
 
 ::selection {
-  background: #ddc78d;
-  color: #006d5b;
+  background: #228b22;
+  color: #ffffff;
 }
 
 button,
@@ -70,12 +71,12 @@ textarea:focus-visible {
     @apply rounded-2xl border border-ink-100 bg-white shadow-card;
   }
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-mint-200 bg-mint-50 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-deep;
+    @apply inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-brand-700;
   }
   .soft-grid {
     background-image:
-      linear-gradient(rgb(221 199 141 / 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(221 199 141 / 0.07) 1px, transparent 1px);
+      linear-gradient(rgb(47 79 79 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(47 79 79 / 0.06) 1px, transparent 1px);
     background-size: 34px 34px;
   }
   .noise {
