@@ -322,7 +322,7 @@ export default function Home() {
               <Fragment key={step.title}>
                 <div className="relative rounded-2xl border border-ink-100 bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-brand-200 hover:shadow-card-hover">
                   {index < clientSteps.length - 1 && (
-                    <span className="absolute -right-[14px] top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-brand text-deep shadow-forest lg:grid"><ArrowRight className="h-3.5 w-3.5" /></span>
+                    <span className="absolute -right-[14px] top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-brand text-white shadow-forest lg:grid"><ArrowRight className="h-3.5 w-3.5" /></span>
                   )}
                   <span className="text-xs font-black uppercase tracking-[0.2em] text-brand-700">{step.step}</span>
                   <span className="mt-5 grid h-12 w-12 place-items-center rounded-2xl bg-brand-50 text-brand-700"><step.icon className="h-6 w-6" /></span>
