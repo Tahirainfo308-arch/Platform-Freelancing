@@ -151,7 +151,7 @@ export default function Home() {
         <div className="page-shell relative py-16 lg:py-24">
           <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="animate-fade-up">
-              <h1 className="max-w-3xl text-balance text-[1.5rem] font-bold leading-[1.2] tracking-[-0.02em] text-deep sm:text-[1.75rem] lg:text-[1.9rem]">
+              <h1 className="max-w-3xl text-balance text-[1.75rem] font-bold leading-[1.2] tracking-[-0.02em] text-deep sm:text-[2.125rem] lg:text-[2.375rem]">
                 Pakistan&apos;s Smarter Freelancing Marketplace,{" "}
                 <span className="relative whitespace-nowrap text-brand-600">Powered by AI.<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-1 rounded-full bg-brand/40" /></span>
               </h1>
