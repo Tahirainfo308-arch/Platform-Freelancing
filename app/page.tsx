@@ -1,257 +1,438 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
+  ArrowDown,
   ArrowRight,
+  Award,
   BadgeCheck,
-  BookOpen,
+  BrainCircuit,
   BriefcaseBusiness,
   Check,
-  ChevronDown,
-  ChevronRight,
-  Clock3,
+  CheckCircle2,
+  ClipboardList,
   Compass,
-  GraduationCap,
-  HandHeart,
+  FileCheck2,
+  Handshake,
   Laptop2,
   Lightbulb,
+  LineChart,
+  Lock,
   MapPin,
   MessageSquareText,
+  Mic,
   Paintbrush,
-  Search,
+  Radar,
+  Rocket,
+  SearchCheck,
+  Send,
   ShieldCheck,
+  ShieldX,
   Sparkles,
   Star,
   Target,
-  TrendingUp,
   Truck,
-  UserRoundCheck,
+  UserPlus,
+  Users,
   Wallet,
   Wrench,
   Zap,
 } from "lucide-react";
 import { formatPKR } from "@/lib/format";
 
-const categories = [
-  { icon: Laptop2, name: "Web & App", count: "Build sites, apps & support", tone: "bg-mint-50 text-deep" },
-  { icon: Paintbrush, name: "Design", count: "Logos, branding & creative", tone: "bg-mint-50 text-deep" },
-  { icon: Wrench, name: "Handyman", count: "Fixing, assembly & maintenance", tone: "bg-mint-50 text-deep" },
-  { icon: BriefcaseBusiness, name: "Virtual Assistant", count: "Admin & online support", tone: "bg-mint-50 text-deep" },
-  { icon: Truck, name: "Delivery & Moving", count: "Errands, delivery & relocation", tone: "bg-mint-50 text-deep" },
-  { icon: MessageSquareText, name: "Content & Writing", count: "Copy, blogs & translations", tone: "bg-mint-50 text-deep" },
+const stats = [
+  { value: "10K+", label: "Verified Freelancers" },
+  { value: "5K+", label: "Projects Completed" },
+  { value: "50+", label: "Skill Categories" },
+  { value: "AI", label: "Powered Matching" },
 ];
 
-const featuredJobs = [
-  { title: "Shopify store speed optimisation", place: "Remote", bids: 8, price: 45000, match: 96, beginner: true },
-  { title: "Social media kit for a new chai cafe", place: "Karachi", bids: 12, price: 22000, match: 91, beginner: true },
-  { title: "Data entry for online store", place: "Remote", bids: 15, price: 15000, match: 89, beginner: true },
-  { title: "Set up a WordPress portfolio site", place: "Lahore", bids: 6, price: 30000, match: 93, beginner: true },
-  { title: "Logo + business card design", place: "Remote", bids: 9, price: 18000, match: 87, beginner: true },
-  { title: "Translate documents Urdu to English", place: "Remote", bids: 4, price: 12000, match: 90, beginner: true },
+const trustCards = [
+  { icon: BadgeCheck, title: "Verified Skills", body: "AI-powered skill verification" },
+  { icon: BrainCircuit, title: "AI Matching", body: "Smart freelancer recommendations" },
+  { icon: Star, title: "Trust Scores", body: "Performance-based reputation" },
+  { icon: Lock, title: "Secure Payments", body: "Protected project payments" },
+];
+
+const whyCards = [
+  { icon: FileCheck2, title: "AI Skill Verification", body: "Freelancers can demonstrate their skills through AI-powered assessments." },
+  { icon: Users, title: "Fair Talent Discovery", body: "New and experienced freelancers get opportunities based on verified capabilities and performance." },
+  { icon: Radar, title: "Smart Recommendations", body: "AI matches clients with relevant freelancers based on project requirements." },
+  { icon: ShieldX, title: "Fraud Protection", body: "Intelligent systems identify suspicious accounts, proposals, reviews, and activities." },
+  { icon: Rocket, title: "Fresh Talent Boost", body: "Verified beginners can receive additional visibility to help them build their first reputation." },
+  { icon: Wallet, title: "Secure Transactions", body: "Protected payment workflows help create confidence between clients and freelancers." },
+];
+
+const clientSteps = [
+  { icon: ClipboardList, step: "01", title: "Post a Job", body: "Describe your project and requirements." },
+  { icon: BrainCircuit, step: "02", title: "AI Finds Talent", body: "TQRA AI recommends relevant freelancers." },
+  { icon: Handshake, step: "03", title: "Hire & Fund", body: "Select a freelancer and secure the payment." },
+  { icon: CheckCircle2, step: "04", title: "Get Work Done", body: "Review the project and release payment." },
+];
+
+const journey = [
+  { icon: UserPlus, label: "Create Profile" },
+  { icon: FileCheck2, label: "Verify Skills" },
+  { icon: SearchCheck, label: "Discover Jobs" },
+  { icon: Send, label: "Submit Proposals" },
+  { icon: CheckCircle2, label: "Complete Projects" },
+  { icon: Star, label: "Build Reputation" },
+  { icon: Wallet, label: "Earn" },
+];
+
+const aiCards = [
+  { icon: Mic, title: "AI Interview", body: "Showcase your technical skills through intelligent assessments." },
+  { icon: LineChart, title: "AI Ranking", body: "Get ranked based on skills, performance, trust, and client satisfaction." },
+  { icon: Radar, title: "AI Recommendations", body: "Discover projects and talent relevant to your requirements." },
+  { icon: ShieldX, title: "AI Fraud Detection", body: "Identify suspicious activity and protect the marketplace." },
+  { icon: Lightbulb, title: "AI Career Insights", body: "Help freelancers understand their strengths and growth opportunities." },
+];
+
+const categories = [
+  { icon: Laptop2, name: "Web & App", count: "Build sites, apps & support" },
+  { icon: Paintbrush, name: "Design", count: "Logos, branding & creative" },
+  { icon: Wrench, name: "Handyman", count: "Fixing, assembly & maintenance" },
+  { icon: BriefcaseBusiness, name: "Virtual Assistant", count: "Admin & online support" },
+  { icon: Truck, name: "Delivery & Moving", count: "Errands, delivery & relocation" },
+  { icon: MessageSquareText, name: "Content & Writing", count: "Copy, blogs & translations" },
 ];
 
 const topFreelancers = [
-  { name: "Ayesha R.", title: "Social Media Designer", city: "Lahore", score: 94, jobs: 12, rating: 4.9, avatar: "A", tag: "First job in 3 weeks" },
-  { name: "Bilal K.", title: "Web Developer", city: "Islamabad", score: 92, jobs: 9, rating: 4.8, avatar: "B", tag: "First job in 2 weeks" },
-  { name: "Mahnoor S.", title: "Virtual Assistant", city: "Karachi", score: 96, jobs: 15, rating: 5.0, avatar: "M", tag: "First job in 1 week" },
-  { name: "Usman T.", title: "Content Writer", city: "Faisalabad", score: 90, jobs: 8, rating: 4.7, avatar: "U", tag: "First job in 4 weeks" },
+  { name: "Ayesha R.", title: "Social Media Designer", city: "Lahore", trust: 94, jobs: 12, rating: 4.9, avatar: "A", tag: "First job in 3 weeks" },
+  { name: "Bilal K.", title: "Web Developer", city: "Islamabad", trust: 92, jobs: 9, rating: 4.8, avatar: "B", tag: "First job in 2 weeks" },
+  { name: "Mahnoor S.", title: "Virtual Assistant", city: "Karachi", trust: 96, jobs: 15, rating: 5.0, avatar: "M", tag: "First job in 1 week" },
+  { name: "Usman T.", title: "Content Writer", city: "Faisalabad", trust: 90, jobs: 8, rating: 4.7, avatar: "U", tag: "First job in 4 weeks" },
 ];
 
-const steps = [
-  { icon: UserRoundCheck, step: "01", title: "Create your profile", body: "Sign up free and tell us what you're good at. No experience needed to start." },
-  { icon: Sparkles, step: "02", title: "Take the AI Skill Check", body: "Answer a few simple questions. Get a skill score that helps clients trust you." },
-  { icon: Target, step: "03", title: "Send offers on real jobs", body: "Browse beginner-friendly tasks and send your first offer with one click." },
-  { icon: Wallet, step: "04", title: "Get paid safely", body: "Complete the job, get approved, and receive your payment through escrow." },
+const heroJobs = [
+  { title: "Shopify store speed optimisation", place: "Remote", bids: 8, price: 45000, match: 96 },
+  { title: "Social media kit for a new chai cafe", place: "Karachi", bids: 12, price: 22000, match: 91 },
 ];
 
-const stories = [
-  { name: "Fatima", city: "Karachi", role: "Graphic Designer", quote: "I was scared to start freelancing. The AI Skill Check gave me a score, and my first client hired me the same week. It felt safe and simple.", jobs: "12 jobs completed", avatar: "F" },
-  { name: "Hamza", city: "Lahore", role: "Web Developer", quote: "No portfolio, no connections — just the skill check and a beginner-friendly task. I landed my first paid project in 2 weeks.", jobs: "8 jobs completed", avatar: "H" },
-  { name: "Zainab", city: "Rawalpindi", role: "Virtual Assistant", quote: "As a first-timer I loved that everything guided me step by step. The trust score made clients take me seriously right away.", jobs: "15 jobs completed", avatar: "Z" },
+const networkNodes = [
+  { x: 45, y: 70, r: 9, pulse: true },
+  { x: 120, y: 35, r: 11, pulse: false },
+  { x: 215, y: 30, r: 9, pulse: true },
+  { x: 305, y: 45, r: 12, pulse: false },
+  { x: 355, y: 90, r: 8, pulse: true },
+  { x: 355, y: 155, r: 10, pulse: false },
+  { x: 285, y: 185, r: 11, pulse: true },
+  { x: 205, y: 178, r: 8, pulse: false },
+  { x: 120, y: 185, r: 10, pulse: true },
+  { x: 55, y: 145, r: 11, pulse: false },
 ];
 
-const lessons = [
-  { icon: Lightbulb, title: "How to write your first winning offer", minutes: "5 min read", tag: "Beginners" },
-  { icon: Star, title: "Building a trust score clients love", minutes: "4 min read", tag: "Reputation" },
-  { icon: TrendingUp, title: "Pricing your first jobs in PKR", minutes: "6 min read", tag: "Pricing" },
-  { icon: MessageSquareText, title: "Clear communication = more jobs", minutes: "4 min read", tag: "Skills" },
-];
-
-const faqs = [
-  { q: "I have no experience. Can I still start freelancing?", a: "Yes. Workly is built for beginners. You can take the free AI Skill Check, apply for beginner-friendly tasks, and build trust with your first few small wins. Every professional started somewhere." },
-  { q: "How does the AI Skill Score work?", a: "The AI Skill Check asks simple questions about your skills and work preferences. Our system estimates a score that helps clients understand your strengths — even before you have a long work history." },
-  { q: "When and how do I get paid?", a: "Payments are protected by escrow. The client deposits the amount, you complete the task, and once the client approves, the money is released to your Workly wallet." },
-  { q: "Is it really free to join?", a: "Yes. Creating an account, browsing jobs, and taking the AI Skill Check are completely free. We only charge a small platform fee when you successfully complete work." },
-  { q: "How do I get my first client to trust me?", a: "Complete your profile, take the AI Skill Check, and start with tasks marked 'beginner friendly'. Small, well-scoped jobs are the fastest way to earn reviews and grow your trust score." },
+const networkEdges = [
+  [120, 35, 215, 30],
+  [305, 45, 355, 90],
+  [355, 155, 285, 185],
+  [285, 185, 205, 178],
+  [205, 178, 120, 185],
+  [120, 185, 55, 145],
+  [55, 145, 45, 70],
+  [45, 70, 120, 35],
 ];
 
 export default function Home() {
-  const router = useRouter();
-  const [query, setQuery] = useState("");
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-
-  const submitSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push(query.trim() ? `/tasks?q=${encodeURIComponent(query.trim())}` : "/tasks");
-  };
-
   return (
     <div className="overflow-hidden">
+      {/* Hero */}
       <section className="relative bg-deep text-white">
         <div className="pointer-events-none absolute inset-0 soft-grid opacity-60" />
         <div className="pointer-events-none absolute -left-32 top-24 h-96 w-96 rounded-full bg-mint/15 blur-3xl" />
-        <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
-        <div className="page-shell relative grid min-h-[680px] items-center gap-14 py-16 lg:grid-cols-[1.02fr_0.98fr] lg:py-20">
-          <div className="animate-fade-up">
-            <div className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-mint">
-              <Sparkles className="h-3.5 w-3.5" /> Pakistan&apos;s beginner-first freelancing platform
-            </div>
-            <h1 className="mt-7 max-w-3xl text-balance text-5xl font-black leading-[1.05] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
-              Your first freelance job starts <span className="relative whitespace-nowrap text-mint">here.<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-1 rounded-full bg-mint/40" /></span>
-            </h1>
-            <p className="mt-6 max-w-xl text-lg font-medium leading-8 text-white/65">
-              No experience? No problem. Build your AI skill score, apply to beginner-friendly jobs, and earn real money — with confidence from day one.
-            </p>
+        <div className="pointer-events-none absolute -right-24 bottom-24 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
 
-            <form onSubmit={submitSearch} className="mt-9 flex max-w-xl flex-col gap-3 rounded-2xl bg-white p-2.5 shadow-elevated sm:flex-row">
-              <div className="relative flex-1">
-                <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-deep/40" />
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search beginner-friendly jobs..."
-                  className="min-h-14 w-full rounded-xl bg-canvas px-4 pl-12 text-sm font-semibold text-ink placeholder:text-ink-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-mint/40"
-                />
+        <div className="page-shell relative py-16 lg:py-24">
+          <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="animate-fade-up">
+              <div className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-mint">
+                <Sparkles className="h-3.5 w-3.5" /> Pakistan&apos;s AI-powered freelancing marketplace
               </div>
-              <Link href="/post" className="inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-mint px-6 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">
-                Post a job <ArrowRight className="h-4 w-4" />
-              </Link>
-            </form>
+              <h1 className="mt-7 max-w-3xl text-balance text-5xl font-black leading-[1.05] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
+                Pakistan&apos;s Smarter Freelancing Marketplace,{" "}
+                <span className="relative whitespace-nowrap text-mint">Powered by AI.<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-1 rounded-full bg-mint/40" /></span>
+              </h1>
+              <p className="mt-6 max-w-xl text-lg font-medium leading-8 text-white/65">
+                Connect with verified talent, discover the right opportunities, and build your freelance career with intelligent AI-powered matching.
+              </p>
 
-            <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-extrabold text-white/70">
-              <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-mint" /> Free to join</span>
-              <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-mint" /> Escrow-protected</span>
-              <span className="flex items-center gap-1.5"><Sparkles className="h-4 w-4 text-mint" /> AI-guided onboarding</span>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Link href="/#talent" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-mint px-7 text-sm font-extrabold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-mint-dark">
+                  Find Freelancers <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/signup" className="inline-flex min-h-14 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 text-sm font-bold text-white transition hover:bg-white/15">
+                  <UserPlus className="h-4 w-4" /> Start Freelancing
+                </Link>
+              </div>
+
+              <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-xs font-extrabold text-white/70">
+                <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-mint" /> Verified talent</span>
+                <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-mint" /> Escrow-protected payments</span>
+                <span className="flex items-center gap-1.5"><Sparkles className="h-4 w-4 text-mint" /> AI-powered matching</span>
+              </div>
+            </div>
+
+            <div className="relative mx-auto w-full max-w-xl">
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-mint/20 blur-3xl" />
+              <div className="relative rounded-[28px] bg-white/95 p-5 shadow-elevated backdrop-blur sm:p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-ink-400">TQRA AI matching</p>
+                    <p className="mt-1 text-xl font-black text-deep">Matched for you</p>
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-mint px-3 py-1.5 text-xs font-extrabold text-white"><Zap className="h-3.5 w-3.5" /> Live</span>
+                </div>
+
+                <div className="relative mt-5 overflow-hidden rounded-2xl bg-deep">
+                  <svg viewBox="0 0 400 200" className="h-auto w-full">
+                    <defs>
+                      <linearGradient id="hubGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stopColor="#00CB75" />
+                        <stop offset="100%" stopColor="#3DD68F" />
+                      </linearGradient>
+                    </defs>
+                    <circle cx="200" cy="100" r="46" fill="none" stroke="#00CB75" strokeOpacity="0.4" className="animate-pulse-soft" />
+                    {networkEdges.map(([x1, y1, x2, y2]) => (
+                      <line key={`${x1}-${y1}-${x2}-${y2}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#00CB75" strokeOpacity="0.3" strokeWidth="1.5" />
+                    ))}
+                    {networkNodes.map((node) => (
+                      <line key={`hub-${node.x}-${node.y}`} x1="200" y1="100" x2={node.x} y2={node.y} stroke="#00CB75" strokeOpacity="0.3" strokeWidth="1.5" />
+                    ))}
+                    <circle cx="200" cy="100" r="30" fill="url(#hubGradient)" />
+                    {networkNodes.map((node) => (
+                      <circle key={`node-${node.x}-${node.y}`} cx={node.x} cy={node.y} r={node.r} fill={node.pulse ? "#3DD68F" : "#ffffff"} stroke="#00CB75" strokeWidth="2" className={node.pulse ? "animate-pulse" : ""} />
+                    ))}
+                  </svg>
+                  <div className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl bg-mint shadow-glow">
+                    <Sparkles className="h-6 w-6 text-white" />
+                  </div>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  {heroJobs.map((job, index) => (
+                    <div key={job.title} className={`flex items-center gap-3 rounded-2xl border p-3 ${index === 0 ? "border-mint-200 bg-white shadow-card" : "border-ink-100 bg-canvas/60"}`}>
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-mint-50 text-mint-700"><BriefcaseBusiness className="h-4 w-4" /></span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-xs font-extrabold text-ink">{job.title}</p>
+                        <p className="mt-0.5 flex items-center gap-1 text-[10px] font-bold text-ink-400"><MapPin className="h-2.5 w-2.5" />{job.place} · {job.bids} offers · {job.match}% match</p>
+                      </div>
+                      <span className="shrink-0 text-xs font-black text-deep">{formatPKR(job.price, true)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="absolute -right-3 -top-6 inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-extrabold text-white shadow-glow animate-pulse-soft">
+                <Sparkles className="h-3.5 w-3.5" /> AI matched · 96%
+              </div>
+
+              <div className="absolute -left-3 top-24 hidden items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[11px] font-extrabold text-deep shadow-card sm:inline-flex">
+                <BadgeCheck className="h-4 w-4 text-mint-600" /> Verified talent
+              </div>
+
+              <div className="absolute -bottom-10 -left-3 w-[17rem] rounded-2xl border border-ink-100 bg-white p-4 shadow-card sm:-left-8">
+                <div className="flex items-center gap-3">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-deep text-sm font-black text-white">AR</span>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-black text-ink">Ayesha R.</p>
+                    <p className="truncate text-[11px] font-bold text-ink-400">Social Media Designer</p>
+                  </div>
+                  <span className="ml-auto rounded-full bg-mint-50 px-2 py-1 text-[10px] font-black text-deep">96%</span>
+                </div>
+                <div className="mt-3 space-y-2">
+                  <div className="flex items-center gap-2 text-[10px] font-extrabold text-ink-400">
+                    <BadgeCheck className="h-3 w-3 text-mint-600" /> Trust score <span className="ml-auto">94</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-ink-100"><div className="h-full w-[94%] rounded-full bg-mint" /></div>
+                  <div className="flex items-center gap-2 text-[10px] font-extrabold text-ink-400">
+                    <Award className="h-3 w-3 text-deep" /> Skill score <span className="ml-auto">91</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-ink-100"><div className="h-full w-[91%] rounded-full bg-deep" /></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-xl lg:mx-0">
-            <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-mint/20 blur-2xl" />
-            <div className="relative overflow-hidden rounded-[28px] bg-white/95 p-4 shadow-elevated backdrop-blur sm:p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-ink-400">Work feed</p>
-                  <p className="mt-1 text-xl font-black text-deep">Matched for you</p>
+          <div className="relative mt-24 border-t border-white/10 pt-10">
+            <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+              {stats.map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className="text-3xl font-black tracking-[-0.04em] text-mint sm:text-4xl">{stat.value}</p>
+                  <p className="mt-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white/50">{stat.label}</p>
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-mint px-3 py-1.5 text-xs font-extrabold text-white"><Zap className="h-3.5 w-3.5" /> Live</span>
+              ))}
+            </div>
+            <p className="mt-6 text-center text-[11px] font-semibold text-white/35">Target figures at launch — live statistics update automatically once Parwaz.pk goes live.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust / Verification bar */}
+      <section id="trust" className="border-b border-ink-100 bg-canvas py-16">
+        <div className="page-shell">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow"><ShieldCheck className="h-3.5 w-3.5" /> Trust &amp; safety</span>
+            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Built for Trust. Designed for Talent.</h2>
+          </div>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {trustCards.map((card) => (
+              <div key={card.title} className="rounded-2xl border border-ink-100 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-mint-200 hover:shadow-card-hover">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-mint-50 text-mint-700"><card.icon className="h-5 w-5" /></span>
+                <h3 className="mt-4 font-black text-ink">{card.title}</h3>
+                <p className="mt-1.5 text-sm leading-6 text-ink-500">{card.body}</p>
               </div>
-              <div className="mt-6 space-y-3">
-                {featuredJobs.slice(0, 3).map((task, index) => (
-                  <div key={task.title} className={`rounded-2xl border p-4 transition ${index === 0 ? "border-mint-200 bg-white shadow-card" : "border-ink-100 bg-canvas/60"}`}>
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <span className={`text-[10px] font-extrabold uppercase tracking-[0.14em] ${index === 0 ? "text-mint-700" : "text-ink-400"}`}>{task.match}% match · Beginner friendly</span>
-                        <h3 className={`mt-1 text-sm font-extrabold ${index === 0 ? "text-ink" : "text-ink"}`}>{task.title}</h3>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why TQRA AI */}
+      <section id="why" className="bg-white py-24">
+        <div className="page-shell">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow"><BrainCircuit className="h-3.5 w-3.5" /> Why TQRA AI?</span>
+            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Freelancing, Reimagined for Pakistan.</h2>
+            <p className="mt-4 text-base font-medium leading-7 text-ink-500">Not another marketplace clone. TQRA AI is built to fix what breaks trust online — verification, discovery, and safety.</p>
+          </div>
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {whyCards.map((card) => (
+              <div key={card.title} className="rounded-2xl border border-ink-100 bg-canvas/60 p-7 transition hover:-translate-y-1 hover:border-mint-200 hover:bg-white hover:shadow-card">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-mint-50 text-mint-700"><card.icon className="h-6 w-6" /></span>
+                <h3 className="mt-5 text-lg font-black text-ink">{card.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-ink-500">{card.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works — For Clients */}
+      <section id="how-it-works" className="bg-canvas py-24">
+        <div className="page-shell">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow"><Compass className="h-3.5 w-3.5" /> How it works</span>
+            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Post a job. Get matched. Get it done.</h2>
+            <p className="mt-4 text-base font-medium leading-7 text-ink-500">For clients — four simple steps, with AI doing the heavy lifting.</p>
+          </div>
+          <div className="mt-14 grid gap-6 lg:grid-cols-4">
+            {clientSteps.map((step, index) => (
+              <Fragment key={step.title}>
+                <div className="relative rounded-2xl border border-ink-100 bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-mint-200 hover:shadow-card-hover">
+                  {index < clientSteps.length - 1 && (
+                    <span className="absolute -right-[14px] top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-mint text-white shadow-glow lg:grid"><ArrowRight className="h-3.5 w-3.5" /></span>
+                  )}
+                  <span className="text-xs font-black uppercase tracking-[0.2em] text-mint-700">{step.step}</span>
+                  <span className="mt-5 grid h-12 w-12 place-items-center rounded-2xl bg-mint-50 text-mint-700"><step.icon className="h-6 w-6" /></span>
+                  <h3 className="mt-5 text-xl font-black text-ink">{step.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-ink-500">{step.body}</p>
+                </div>
+                {index < clientSteps.length - 1 && (
+                  <div className="flex justify-center lg:hidden"><ArrowDown className="my-1 h-5 w-5 text-mint-700" /></div>
+                )}
+              </Fragment>
+            ))}
+          </div>
+          <div className="mt-12 flex flex-wrap justify-center gap-3">
+            <Link href="/post" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-mint px-6 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Post a job <ArrowRight className="h-4 w-4" /></Link>
+            <Link href="/#talent" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-deep/20 bg-white px-6 text-sm font-extrabold text-deep transition hover:bg-mint-50"><SearchCheck className="h-4 w-4" /> Find freelancers</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Freelancer Journey */}
+      <section id="journey" className="bg-white py-24">
+        <div className="page-shell">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow"><Target className="h-3.5 w-3.5" /> Freelancer journey</span>
+            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Turn Your Skills Into Opportunities.</h2>
+            <p className="mt-4 text-base font-medium leading-7 text-ink-500">Seven steps from profile to paycheck — no portfolio or experience needed to start.</p>
+          </div>
+          <div className="mt-14 rounded-[28px] border border-ink-100 bg-canvas p-8 shadow-card sm:p-12">
+            <div className="overflow-x-auto pb-2">
+              <div className="flex min-w-[940px] items-center">
+                {journey.map((step, index) => (
+                  <Fragment key={step.label}>
+                    <div className="flex w-28 shrink-0 flex-col items-center text-center">
+                      <div className="relative">
+                        <span className={`grid h-14 w-14 place-items-center rounded-full border-2 shadow-card ${index === 0 ? "border-mint bg-mint text-white" : "border-mint-200 bg-white text-deep"}`}>
+                          <step.icon className="h-6 w-6" />
+                        </span>
+                        {index === 0 && <span className="absolute -inset-1.5 -z-10 animate-pulse-soft rounded-full bg-mint/25" />}
                       </div>
-                      <span className={`shrink-0 text-sm font-black ${index === 0 ? "text-deep" : "text-ink"}`}>{formatPKR(task.price, true)}</span>
+                      <p className="mt-3 text-xs font-extrabold text-ink-600"><span className="text-mint-700">{index + 1}.</span> {step.label}</p>
                     </div>
-                    <div className={`mt-3 flex items-center gap-4 text-xs font-bold ${index === 0 ? "text-ink-400" : "text-ink-400"}`}>
-                      <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{task.place}</span>
-                      <span className="flex items-center gap-1"><BriefcaseBusiness className="h-3 w-3" />{task.bids} offers</span>
-                    </div>
-                  </div>
+                    {index < journey.length - 1 && (
+                      <div className="mx-1 h-0.5 min-w-0 flex-1 rounded-full bg-gradient-to-r from-mint to-mint-200" />
+                    )}
+                  </Fragment>
                 ))}
               </div>
-              <Link href="/interview" className="relative mt-4 flex items-center justify-between rounded-2xl bg-deep px-4 py-3.5 text-white transition hover:bg-deep-800">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-mint"><Sparkles className="h-4 w-4" /></span>
-                  <div><p className="text-xs font-black">Free AI Skill Check</p><p className="text-[10px] text-white/60">Get your score in 5 minutes</p></div>
-                </div>
-                <ChevronRight className="h-4 w-4" />
-              </Link>
             </div>
-
-            <div className="absolute -bottom-6 -left-4 flex items-center gap-3 rounded-2xl border border-ink-100 bg-white p-3 pr-5 shadow-card sm:-left-10">
-              <div className="grid h-11 w-11 place-items-center rounded-xl bg-mint-50 text-mint-700"><BadgeCheck className="h-5 w-5" /></div>
-              <div><div className="flex gap-0.5">{[1,2,3,4,5].map(i => <Star key={i} className="h-3 w-3 fill-warning text-warning" />)}</div><p className="mt-1 text-xs font-extrabold text-ink">Trust-first hiring</p></div>
+            <div className="mt-10 flex flex-col items-center gap-4 border-t border-ink-100 pt-8 sm:flex-row sm:justify-between">
+              <p className="max-w-md text-center text-sm font-medium leading-6 text-ink-500 sm:text-left">Every completed project improves your trust score, ranking, and earning power.</p>
+              <Link href="/signup" className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-xl bg-mint px-6 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Start freelancing <ArrowRight className="h-4 w-4" /></Link>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-ink-100 bg-white py-7">
-        <div className="page-shell grid grid-cols-2 gap-6 sm:grid-cols-4">
-          {[
-            ["1000+", "jobs posted weekly"],
-            ["0 PKR", "to join & apply"],
-            ["AI scores", "on every profile"],
-            ["Escrow", "protects every job"],
-          ].map(([value, label]) => (
-            <div key={label} className="text-center sm:text-left"><p className="text-2xl font-black tracking-[-0.04em] text-deep">{value}</p><p className="mt-1 text-xs font-bold text-ink-400">{label}</p></div>
-          ))}
+      {/* AI Section */}
+      <section id="ai" className="relative bg-deep py-24 text-white">
+        <div className="pointer-events-none absolute inset-0 soft-grid opacity-60" />
+        <div className="pointer-events-none absolute -left-32 top-10 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
+        <div className="page-shell relative">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-mint"><Sparkles className="h-3.5 w-3.5" /> TQRA AI features</span>
+            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] sm:text-5xl">AI That Works for You.</h2>
+            <p className="mt-4 text-base font-medium leading-7 text-white/60">TQRA AI is built into every part of Parwaz.pk — from the first assessment to the final payment.</p>
+          </div>
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+            {aiCards.map((card) => (
+              <div key={card.title} className="rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.1]">
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-mint/15 text-mint"><card.icon className="h-6 w-6" /></span>
+                <h3 className="mt-5 text-lg font-black text-white">{card.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/60">{card.body}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-12 text-center text-xs font-bold uppercase tracking-[0.14em] text-white/35">Every match, ranking, and review runs through TQRA AI.</p>
         </div>
       </section>
 
-      <section className="bg-canvas py-24">
+      {/* Categories */}
+      <section id="categories" className="bg-white py-20">
         <div className="page-shell">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div><span className="eyebrow">Explore work</span><h2 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Popular categories for first jobs.</h2></div>
+            <div><span className="eyebrow"><Laptop2 className="h-3.5 w-3.5" /> Explore marketplaces</span><h2 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Categories for every kind of work.</h2></div>
             <Link href="/tasks" className="inline-flex items-center gap-2 text-sm font-extrabold text-deep">Browse all jobs <ArrowRight className="h-4 w-4" /></Link>
           </div>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => (
               <Link key={category.name} href={`/tasks?category=${encodeURIComponent(category.name)}`} className="group flex items-center gap-4 rounded-2xl border border-ink-100 bg-white p-5 shadow-card transition hover:-translate-y-1 hover:border-mint-200 hover:shadow-card-hover">
-                <span className={`grid h-14 w-14 place-items-center rounded-2xl ${category.tone}`}><category.icon className="h-6 w-6" /></span>
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-mint-50 text-mint-700"><category.icon className="h-6 w-6" /></span>
                 <div className="flex-1"><h3 className="font-black text-ink">{category.name}</h3><p className="mt-1 text-xs font-semibold text-ink-400">{category.count}</p></div>
-                <ChevronRight className="h-5 w-5 text-ink-300 transition group-hover:translate-x-1 group-hover:text-mint-600" />
+                <ArrowRight className="h-5 w-5 text-ink-300 transition group-hover:translate-x-1 group-hover:text-mint-600" />
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-white py-24">
+      {/* Top talent */}
+      <section id="talent" className="bg-canvas py-20">
         <div className="page-shell">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div><span className="eyebrow"><BriefcaseBusiness className="h-3.5 w-3.5" /> Featured beginner jobs</span><h2 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Perfect for your very first job.</h2></div>
-            <Link href="/tasks" className="inline-flex items-center gap-2 text-sm font-extrabold text-deep">See all jobs <ArrowRight className="h-4 w-4" /></Link>
-          </div>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredJobs.map((task) => (
-              <Link key={task.title} href="/tasks" className="group rounded-2xl border border-ink-100 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:border-mint-200 hover:shadow-card-hover">
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-mint-50 px-3 py-1 text-[11px] font-extrabold text-deep"><Sparkles className="h-3 w-3" /> Beginner friendly</span>
-                  <span className="text-[11px] font-black uppercase tracking-wider text-mint-700">{task.match}% match</span>
-                </div>
-                <h3 className="mt-4 text-lg font-black text-ink">{task.title}</h3>
-                <div className="mt-3 flex items-center gap-4 text-xs font-bold text-ink-400">
-                  <span className="flex items-center gap-1"><MapPin className="h-3 w-3 text-mint-600" />{task.place}</span>
-                  <span className="flex items-center gap-1"><BriefcaseBusiness className="h-3 w-3 text-mint-600" />{task.bids} offers</span>
-                </div>
-                <div className="mt-5 flex items-center justify-between border-t border-ink-100 pt-4">
-                  <p className="text-lg font-black text-ink">{formatPKR(task.price, true)}</p>
-                  <span className="inline-flex items-center gap-1 text-xs font-extrabold text-deep group-hover:text-mint-700">Apply now <ArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-1" /></span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-canvas py-24">
-        <div className="page-shell">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div><span className="eyebrow"><BadgeCheck className="h-3.5 w-3.5" /> Top freelancers</span><h2 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Beginners clients already trust.</h2></div>
-            <Link href="/tasks" className="inline-flex items-center gap-2 text-sm font-extrabold text-deep">Hire talent <ArrowRight className="h-4 w-4" /></Link>
+            <div><span className="eyebrow"><Award className="h-3.5 w-3.5" /> Top talent</span><h2 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Verified freelancers, ready to start.</h2></div>
+            <Link href="/signup" className="inline-flex items-center gap-2 text-sm font-extrabold text-deep">Hire talent <ArrowRight className="h-4 w-4" /></Link>
           </div>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {topFreelancers.map((person) => (
               <div key={person.name} className="rounded-2xl border border-ink-100 bg-white p-6 text-center shadow-card transition hover:-translate-y-1 hover:shadow-card-hover">
                 <div className="relative mx-auto h-16 w-16">
                   <span className="grid h-16 w-16 place-items-center rounded-2xl bg-deep text-xl font-black text-white">{person.avatar}</span>
-                  <span className="absolute -bottom-1 -right-1 grid h-7 w-7 place-items-center rounded-full bg-mint text-[10px] font-black text-white ring-2 ring-white">{person.score}</span>
+                  <span className="absolute -bottom-1 -right-1 grid h-7 w-7 place-items-center rounded-full bg-mint text-[10px] font-black text-white ring-2 ring-white">{person.trust}</span>
                 </div>
                 <h3 className="mt-4 font-black text-ink">{person.name}</h3>
                 <p className="mt-1 text-xs font-bold text-ink-400">{person.title} · {person.city}</p>
@@ -260,109 +441,26 @@ export default function Home() {
                   <span>·</span>
                   <span>{person.jobs} jobs done</span>
                 </div>
-                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-mint-50 px-3 py-1.5 text-[11px] font-extrabold text-deep"><Sparkles className="h-3 w-3" /> {person.tag}</div>
+                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-mint-50 px-3 py-1.5 text-[11px] font-extrabold text-deep"><BadgeCheck className="h-3 w-3" /> {person.tag}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-white py-24">
-        <div className="page-shell">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow"><Compass className="h-3.5 w-3.5" /> How it works</span>
-            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">From zero experience to first paycheck.</h2>
-            <p className="mt-4 text-base font-medium leading-7 text-ink-500">Four simple steps. No portfolio required.</p>
-          </div>
-          <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step) => (
-              <div key={step.title} className="relative rounded-2xl border border-ink-100 bg-canvas/60 p-7 transition hover:border-mint-200 hover:bg-white hover:shadow-card">
-                <span className="text-xs font-black uppercase tracking-[0.2em] text-mint-700">{step.step}</span>
-                <span className="mt-5 grid h-12 w-12 place-items-center rounded-2xl bg-mint-50 text-mint-700"><step.icon className="h-6 w-6" /></span>
-                <h3 className="mt-5 text-xl font-black text-ink">{step.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-ink-500">{step.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 flex flex-wrap justify-center gap-3">
-            <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-mint px-6 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Start free today <ArrowRight className="h-4 w-4" /></Link>
-            <Link href="/interview" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-deep/20 bg-white px-6 text-sm font-extrabold text-deep transition hover:bg-mint-50"><Sparkles className="h-4 w-4" /> Try the AI Skill Check</Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-deep py-24 text-white">
-        <div className="page-shell">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-mint"><HandHeart className="h-3.5 w-3.5" /> Success stories</span>
-            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] sm:text-5xl">They started exactly where you are.</h2>
-          </div>
-          <div className="mt-14 grid gap-4 md:grid-cols-3">
-            {stories.map((story) => (
-              <figure key={story.name} className="rounded-2xl border border-white/10 bg-white/[0.06] p-7 backdrop-blur transition hover:bg-white/[0.1]">
-                <div className="flex gap-0.5">{[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 fill-warning text-warning" />)}</div>
-                <blockquote className="mt-4 text-sm leading-7 text-white/80">“{story.quote}”</blockquote>
-                <figcaption className="mt-6 flex items-center gap-3">
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-mint text-sm font-black text-white">{story.avatar}</span>
-                  <div><p className="text-sm font-black text-white">{story.name} <span className="font-medium text-white/50">· {story.city}</span></p><p className="text-xs font-bold text-mint">{story.role} · {story.jobs}</p></div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="learn" className="bg-white py-24">
-        <div className="page-shell">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div><span className="eyebrow"><GraduationCap className="h-3.5 w-3.5" /> Learning center</span><h2 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Learn before you earn.</h2></div>
-            <span className="inline-flex items-center gap-2 text-sm font-extrabold text-ink-400"><BookOpen className="h-4 w-4" /> Free guides, always</span>
-          </div>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {lessons.map((lesson) => (
-              <Link key={lesson.title} href="/interview" className="group rounded-2xl border border-ink-100 bg-canvas/60 p-6 transition hover:-translate-y-1 hover:border-mint-200 hover:bg-white hover:shadow-card">
-                <span className="grid h-11 w-11 place-items-center rounded-xl bg-mint-50 text-mint-700"><lesson.icon className="h-5 w-5" /></span>
-                <h3 className="mt-4 font-black leading-snug text-ink">{lesson.title}</h3>
-                <div className="mt-3 flex items-center gap-2 text-xs font-bold text-ink-400"><span className="rounded-full bg-mint-50 px-2.5 py-1 text-[10px] font-black uppercase text-deep">{lesson.tag}</span><span className="flex items-center gap-1"><Clock3 className="h-3 w-3" />{lesson.minutes}</span></div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="faq" className="bg-canvas py-24">
-        <div className="page-shell grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
-            <span className="eyebrow">FAQs</span>
-            <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] text-ink sm:text-5xl">Questions every beginner asks.</h2>
-            <p className="mt-4 max-w-md text-base font-medium leading-7 text-ink-500">Still unsure? Our support team is ready to help you take the first step.</p>
-            <Link href="/messages" className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl bg-mint px-6 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark"><MessageSquareText className="h-4 w-4" /> Talk to support</Link>
-          </div>
-          <div className="space-y-3">
-            {faqs.map((faq, index) => (
-              <div key={faq.q} className={`overflow-hidden rounded-2xl border transition ${openFaq === index ? "border-mint-200 bg-white shadow-card" : "border-ink-100 bg-white"}`}>
-                <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left">
-                  <span className="font-black text-ink">{faq.q}</span>
-                  <ChevronDown className={`h-5 w-5 shrink-0 text-mint-700 transition-transform ${openFaq === index ? "rotate-180" : ""}`} />
-                </button>
-                {openFaq === index && <p className="px-6 pb-6 text-sm leading-7 text-ink-500">{faq.a}</p>}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      {/* CTA */}
       <section className="bg-white pb-24">
         <div className="page-shell">
           <div className="relative overflow-hidden rounded-[28px] bg-deep p-10 text-center text-white shadow-elevated sm:p-16">
             <div className="pointer-events-none absolute inset-0 soft-grid opacity-50" />
+            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-mint/15 blur-3xl" />
             <div className="relative">
-              <span className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-mint"><Zap className="h-3.5 w-3.5" /> Ready when you are</span>
-              <h2 className="mx-auto mt-6 max-w-2xl text-balance text-4xl font-black tracking-[-0.045em] sm:text-6xl">Your first freelance job is <span className="text-mint">waiting.</span></h2>
-              <p className="mx-auto mt-5 max-w-xl text-base font-medium text-white/65">Join free, get your AI skill score, and apply to beginner-friendly jobs today.</p>
+              <span className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-mint"><Sparkles className="h-3.5 w-3.5" /> Ready when you are</span>
+              <h2 className="mx-auto mt-6 max-w-2xl text-balance text-4xl font-black tracking-[-0.045em] sm:text-6xl">Your next project is <span className="text-mint">AI-matched.</span></h2>
+              <p className="mx-auto mt-5 max-w-xl text-base font-medium text-white/65">Join free, verify your skills with TQRA AI, and get matched with work you&apos;re great at — from both sides of the table.</p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-mint px-7 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Start free <ArrowRight className="h-4 w-4" /></Link>
-                <Link href="/tasks" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 text-sm font-extrabold text-white transition hover:bg-white/15">Browse jobs <Search className="h-4 w-4" /></Link>
+                <Link href="/#talent" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-mint px-7 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Find Freelancers <ArrowRight className="h-4 w-4" /></Link>
+                <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 text-sm font-bold text-white transition hover:bg-white/15"><UserPlus className="h-4 w-4" /> Start Freelancing</Link>
               </div>
             </div>
           </div>

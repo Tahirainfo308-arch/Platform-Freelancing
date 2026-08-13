@@ -9,13 +9,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") || requestHeaders.get("host") || "localhost:3000";
   const protocol = requestHeaders.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
-  const description = "Pakistan's beginner-first freelancing platform. Get your first freelance job, build trust, and grow with confidence.";
+  const description = "Pakistan's smarter freelancing marketplace, powered by AI. Connect with verified talent, discover the right opportunities, and build your freelance career with intelligent AI-powered matching.";
 
   return {
     metadataBase: new URL(origin),
     title: {
-      default: "Workly - Pakistan's beginner-first freelancing platform",
-      template: "%s | Workly",
+      default: "Parwaz.pk - Pakistan's smarter freelancing marketplace",
+      template: "%s | Parwaz.pk",
     },
     description,
     icons: {
@@ -25,14 +25,14 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     openGraph: {
       type: "website",
-      siteName: "Workly",
-      title: "Your first freelance job starts here.",
+      siteName: "Parwaz.pk",
+      title: "Pakistan's Smarter Freelancing Marketplace, Powered by AI.",
       description,
-      images: [{ url: `${origin}/og.png`, width: 1731, height: 909, alt: "Workly - Pakistan's beginner-first freelancing platform" }],
+      images: [{ url: `${origin}/og.png`, width: 1731, height: 909, alt: "Parwaz.pk - Pakistan's smarter freelancing marketplace, powered by AI" }],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Your first freelance job starts here.",
+      title: "Pakistan's Smarter Freelancing Marketplace, Powered by AI.",
       description,
       images: [`${origin}/og.png`],
     },

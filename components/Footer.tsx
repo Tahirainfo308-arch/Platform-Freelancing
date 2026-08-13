@@ -4,21 +4,20 @@ import BrandLogo from "@/components/BrandLogo";
 
 const columns = {
   Marketplace: [
-    { label: "Browse tasks", href: "/tasks" },
-    { label: "Post a task", href: "/post" },
-    { label: "Become a freelancer", href: "/signup" },
-    { label: "Your dashboard", href: "/dashboard" },
+    { label: "Browse jobs", href: "/tasks" },
+    { label: "Post a job", href: "/post" },
+    { label: "Find talent", href: "/#talent" },
+    { label: "Categories", href: "/#categories" },
   ],
   "Get started": [
     { label: "AI Skill Check", href: "/interview" },
     { label: "How it works", href: "/#how-it-works" },
-    { label: "Learning center", href: "/#learn" },
-    { label: "FAQs", href: "/#faq" },
+    { label: "AI features", href: "/#ai" },
+    { label: "Why TQRA AI", href: "/#why" },
   ],
   Support: [
     { label: "Safety & trust", href: "/#trust" },
-    { label: "Workly Protect", href: "/#trust" },
-    { label: "Private fulfilment", href: "/#trust" },
+    { label: "Parwaz Protect", href: "/#trust" },
     { label: "Help centre", href: "/messages" },
   ],
 };
@@ -31,7 +30,7 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-1">
             <BrandLogo inverted compact />
             <p className="mt-5 max-w-xs text-sm leading-6 text-white/60">
-              Pakistan&apos;s beginner-first freelancing platform — helping new freelancers land their first job with confidence.
+              Pakistan&apos;s smarter freelancing marketplace — verified talent, AI-powered matching, and secure payments for every project.
             </p>
             <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-bold text-white/70">
               <ShieldCheck className="h-4 w-4 text-mint" /> Escrow-protected payments
@@ -54,8 +53,8 @@ export default function Footer() {
           ))}
 
           <div>
-            <h3 className="text-xs font-extrabold uppercase tracking-[0.16em] text-white/40">Made for beginners</h3>
-            <p className="mt-4 text-sm leading-6 text-white/60">Local pricing in PKR. AI guidance at every step. Support that understands the market.</p>
+            <h3 className="text-xs font-extrabold uppercase tracking-[0.16em] text-white/40">Powered by TQRA AI</h3>
+            <p className="mt-4 text-sm leading-6 text-white/60">Smart skill verification, AI matching, and fraud protection keep every hire fair and safe.</p>
             <Link href="/interview" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-mint px-4 py-3 text-sm font-extrabold text-white transition hover:bg-mint-dark">
               <Sparkles className="h-4 w-4" /> Try the AI Skill Check
             </Link>
@@ -63,8 +62,8 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col gap-2 border-t border-white/10 py-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between">
-          <span>&copy; {new Date().getFullYear()} Workly. All rights reserved.</span>
-          <span>Pakistan&apos;s beginner-first freelancing platform.</span>
+          <span>&copy; {new Date().getFullYear()} Parwaz.pk. All rights reserved.</span>
+          <span>Pakistan&apos;s smarter freelancing marketplace, powered by AI.</span>
         </div>
       </div>
     </footer>
