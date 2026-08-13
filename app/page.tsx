@@ -453,16 +453,16 @@ export default function Home() {
       {/* CTA */}
       <section className="bg-white pb-24">
         <div className="page-shell">
-          <div className="relative overflow-hidden rounded-[28px] bg-deep p-10 text-center text-white shadow-elevated sm:p-16">
+          <div className="relative overflow-hidden rounded-[28px] bg-[#00501F] p-10 text-center text-white shadow-elevated sm:p-16">
             <div className="pointer-events-none absolute inset-0 soft-grid opacity-40" />
             <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-brand/15 blur-3xl" />
             <div className="relative">
-              <span className="inline-flex items-center gap-2 rounded-full border border-brand-300/30 bg-brand/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-brand-300"><Sparkles className="h-3.5 w-3.5" /> Ready when you are</span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-brand-300/30 bg-brand/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-[#E0E0E0]"><Sparkles className="h-3.5 w-3.5" /> Ready when you are</span>
               <h2 className="mx-auto mt-6 max-w-2xl text-balance text-2xl font-bold tracking-[-0.02em] sm:text-3xl">Your next project is <span className="text-brand-300">AI-matched.</span></h2>
-              <p className="mx-auto mt-5 max-w-xl text-base font-medium text-white/65">Join free, verify your skills with TQRA AI, and get matched with work you&apos;re great at — from both sides of the table.</p>
+              <p className="mx-auto mt-5 max-w-xl text-base font-medium text-[#E0E0E0]">Join free, verify your skills with TQRA AI, and get matched with work you&apos;re great at — from both sides of the table.</p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <Link href="/#talent" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-brand px-7 text-sm font-extrabold text-white shadow-forest transition hover:bg-brand-700">Find Freelancers <ArrowRight className="h-4 w-4" /></Link>
-                <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-xl border-2 border-white/20 bg-white/5 px-7 text-sm font-extrabold text-white transition hover:bg-white/10"><UserPlus className="h-4 w-4" /> Start Freelancing</Link>
+                <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-xl border-2 border-white/20 bg-white/5 px-7 text-sm font-extrabold text-[#E0E0E0] transition hover:bg-white/10"><UserPlus className="h-4 w-4" /> Start Freelancing</Link>
               </div>
             </div>
           </div>
