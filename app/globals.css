@@ -4,7 +4,7 @@
 
 :root {
   --brand: #00cb75;
-  --deep: #00501f;
+  --deep: #006d5b;
   --ink: #1e293b;
   --canvas: #f9f9f9;
 }
@@ -38,8 +38,8 @@ p {
 }
 
 ::selection {
-  background: #ccf7e2;
-  color: #00501f;
+  background: #ddc78d;
+  color: #006d5b;
 }
 
 button,
@@ -74,8 +74,8 @@ textarea:focus-visible {
   }
   .soft-grid {
     background-image:
-      linear-gradient(rgb(0 203 117 / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(0 203 117 / 0.05) 1px, transparent 1px);
+      linear-gradient(rgb(221 199 141 / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(221 199 141 / 0.07) 1px, transparent 1px);
     background-size: 34px 34px;
   }
   .noise {

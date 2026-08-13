@@ -139,80 +139,83 @@ export default function Home() {
     <div className="overflow-hidden">
       {/* Hero */}
       <section className="relative bg-deep text-white">
+        <div className="relative border-b border-gold/25 bg-deep-800/70">
+          <div className="page-shell flex items-center justify-center gap-2 py-2.5">
+            <Sparkles className="h-3.5 w-3.5 text-gold" />
+            <p className="text-center text-[11px] font-extrabold uppercase tracking-[0.18em] text-gold sm:text-xs">Pakistan&apos;s AI-powered freelancing marketplace</p>
+          </div>
+        </div>
         <div className="pointer-events-none absolute inset-0 soft-grid opacity-60" />
-        <div className="pointer-events-none absolute -left-32 top-24 h-96 w-96 rounded-full bg-mint/15 blur-3xl" />
-        <div className="pointer-events-none absolute -right-24 bottom-24 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
+        <div className="pointer-events-none absolute -left-32 top-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-24 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
 
         <div className="page-shell relative py-16 lg:py-24">
           <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="animate-fade-up">
-              <div className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-mint">
-                <Sparkles className="h-3.5 w-3.5" /> Pakistan&apos;s AI-powered freelancing marketplace
-              </div>
-              <h1 className="mt-7 max-w-3xl text-balance text-5xl font-black leading-[1.05] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
+              <h1 className="max-w-3xl text-balance text-[2.1rem] font-black leading-[1.15] tracking-[-0.035em] text-gold sm:text-[2.625rem] lg:text-[3.15rem]">
                 Pakistan&apos;s Smarter Freelancing Marketplace,{" "}
-                <span className="relative whitespace-nowrap text-mint">Powered by AI.<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-1 rounded-full bg-mint/40" /></span>
+                <span className="relative whitespace-nowrap text-gold-200">Powered by AI.<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-1 rounded-full bg-gold/40" /></span>
               </h1>
-              <p className="mt-6 max-w-xl text-lg font-medium leading-8 text-white/65">
+              <p className="mt-6 max-w-xl text-lg font-medium leading-8 text-white/70">
                 Connect with verified talent, discover the right opportunities, and build your freelance career with intelligent AI-powered matching.
               </p>
 
               <div className="mt-9 flex flex-wrap gap-3">
-                <Link href="/#talent" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-mint px-7 text-sm font-extrabold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-mint-dark">
+                <Link href="/#talent" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-gold px-7 text-sm font-extrabold text-deep shadow-gold transition hover:-translate-y-0.5 hover:bg-gold-500">
                   Find Freelancers <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/signup" className="inline-flex min-h-14 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 text-sm font-bold text-white transition hover:bg-white/15">
+                <Link href="/signup" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-gold px-7 text-sm font-extrabold text-deep shadow-gold transition hover:-translate-y-0.5 hover:bg-gold-500">
                   <UserPlus className="h-4 w-4" /> Start Freelancing
                 </Link>
               </div>
 
               <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-xs font-extrabold text-white/70">
-                <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-mint" /> Verified talent</span>
-                <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-mint" /> Escrow-protected payments</span>
-                <span className="flex items-center gap-1.5"><Sparkles className="h-4 w-4 text-mint" /> AI-powered matching</span>
+                <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-gold" /> Verified talent</span>
+                <span className="flex items-center gap-1.5"><ShieldCheck className="h-4 w-4 text-gold" /> Escrow-protected payments</span>
+                <span className="flex items-center gap-1.5"><Sparkles className="h-4 w-4 text-gold" /> AI-powered matching</span>
               </div>
             </div>
 
             <div className="relative mx-auto w-full max-w-xl">
-              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-mint/20 blur-3xl" />
-              <div className="relative rounded-[28px] bg-white/95 p-5 shadow-elevated backdrop-blur sm:p-6">
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gold/20 blur-3xl" />
+              <div className="relative rounded-[28px] bg-[#FDFBF4]/95 p-5 shadow-elevated backdrop-blur sm:p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-ink-400">TQRA AI matching</p>
+                    <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-deep/50">TQRA AI matching</p>
                     <p className="mt-1 text-xl font-black text-deep">Matched for you</p>
                   </div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-mint px-3 py-1.5 text-xs font-extrabold text-white"><Zap className="h-3.5 w-3.5" /> Live</span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-gold px-3 py-1.5 text-xs font-extrabold text-deep"><Zap className="h-3.5 w-3.5" /> Live</span>
                 </div>
 
                 <div className="relative mt-5 overflow-hidden rounded-2xl bg-deep">
                   <svg viewBox="0 0 400 200" className="h-auto w-full">
                     <defs>
                       <linearGradient id="hubGradient" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#00CB75" />
-                        <stop offset="100%" stopColor="#3DD68F" />
+                        <stop offset="0%" stopColor="#E8D39C" />
+                        <stop offset="100%" stopColor="#DDC78D" />
                       </linearGradient>
                     </defs>
-                    <circle cx="200" cy="100" r="46" fill="none" stroke="#00CB75" strokeOpacity="0.4" className="animate-pulse-soft" />
+                    <circle cx="200" cy="100" r="46" fill="none" stroke="#DDC78D" strokeOpacity="0.4" className="animate-pulse-soft" />
                     {networkEdges.map(([x1, y1, x2, y2]) => (
-                      <line key={`${x1}-${y1}-${x2}-${y2}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#00CB75" strokeOpacity="0.3" strokeWidth="1.5" />
+                      <line key={`${x1}-${y1}-${x2}-${y2}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#DDC78D" strokeOpacity="0.35" strokeWidth="1.5" />
                     ))}
                     {networkNodes.map((node) => (
-                      <line key={`hub-${node.x}-${node.y}`} x1="200" y1="100" x2={node.x} y2={node.y} stroke="#00CB75" strokeOpacity="0.3" strokeWidth="1.5" />
+                      <line key={`hub-${node.x}-${node.y}`} x1="200" y1="100" x2={node.x} y2={node.y} stroke="#DDC78D" strokeOpacity="0.35" strokeWidth="1.5" />
                     ))}
                     <circle cx="200" cy="100" r="30" fill="url(#hubGradient)" />
                     {networkNodes.map((node) => (
-                      <circle key={`node-${node.x}-${node.y}`} cx={node.x} cy={node.y} r={node.r} fill={node.pulse ? "#3DD68F" : "#ffffff"} stroke="#00CB75" strokeWidth="2" className={node.pulse ? "animate-pulse" : ""} />
+                      <circle key={`node-${node.x}-${node.y}`} cx={node.x} cy={node.y} r={node.r} fill={node.pulse ? "#DDC78D" : "#ffffff"} stroke="#DDC78D" strokeWidth="2" className={node.pulse ? "animate-pulse" : ""} />
                     ))}
                   </svg>
-                  <div className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl bg-mint shadow-glow">
-                    <Sparkles className="h-6 w-6 text-white" />
+                  <div className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-2xl bg-gold shadow-gold">
+                    <Sparkles className="h-6 w-6 text-deep" />
                   </div>
                 </div>
 
                 <div className="mt-4 space-y-3">
                   {heroJobs.map((job, index) => (
-                    <div key={job.title} className={`flex items-center gap-3 rounded-2xl border p-3 ${index === 0 ? "border-mint-200 bg-white shadow-card" : "border-ink-100 bg-canvas/60"}`}>
-                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-mint-50 text-mint-700"><BriefcaseBusiness className="h-4 w-4" /></span>
+                    <div key={job.title} className={`flex items-center gap-3 rounded-2xl border p-3 ${index === 0 ? "border-gold-200 bg-white shadow-card" : "border-ink-100 bg-canvas/60"}`}>
+                      <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gold-50 text-gold-700"><BriefcaseBusiness className="h-4 w-4" /></span>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-xs font-extrabold text-ink">{job.title}</p>
                         <p className="mt-0.5 flex items-center gap-1 text-[10px] font-bold text-ink-400"><MapPin className="h-2.5 w-2.5" />{job.place} · {job.bids} offers · {job.match}% match</p>
@@ -223,12 +226,12 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute -right-3 -top-6 inline-flex items-center gap-2 rounded-full bg-mint px-4 py-2 text-xs font-extrabold text-white shadow-glow animate-pulse-soft">
+              <div className="absolute -right-3 -top-6 inline-flex items-center gap-2 rounded-full bg-gold px-4 py-2 text-xs font-extrabold text-deep shadow-gold animate-pulse-soft">
                 <Sparkles className="h-3.5 w-3.5" /> AI matched · 96%
               </div>
 
               <div className="absolute -left-3 top-24 hidden items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[11px] font-extrabold text-deep shadow-card sm:inline-flex">
-                <BadgeCheck className="h-4 w-4 text-mint-600" /> Verified talent
+                <BadgeCheck className="h-4 w-4 text-gold-600" /> Verified talent
               </div>
 
               <div className="absolute -bottom-10 -left-3 w-[17rem] rounded-2xl border border-ink-100 bg-white p-4 shadow-card sm:-left-8">
@@ -238,13 +241,13 @@ export default function Home() {
                     <p className="truncate text-sm font-black text-ink">Ayesha R.</p>
                     <p className="truncate text-[11px] font-bold text-ink-400">Social Media Designer</p>
                   </div>
-                  <span className="ml-auto rounded-full bg-mint-50 px-2 py-1 text-[10px] font-black text-deep">96%</span>
+                  <span className="ml-auto rounded-full bg-gold-50 px-2 py-1 text-[10px] font-black text-deep">96%</span>
                 </div>
                 <div className="mt-3 space-y-2">
                   <div className="flex items-center gap-2 text-[10px] font-extrabold text-ink-400">
-                    <BadgeCheck className="h-3 w-3 text-mint-600" /> Trust score <span className="ml-auto">94</span>
+                    <BadgeCheck className="h-3 w-3 text-gold-600" /> Trust score <span className="ml-auto">94</span>
                   </div>
-                  <div className="h-1.5 overflow-hidden rounded-full bg-ink-100"><div className="h-full w-[94%] rounded-full bg-mint" /></div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-ink-100"><div className="h-full w-[94%] rounded-full bg-gold" /></div>
                   <div className="flex items-center gap-2 text-[10px] font-extrabold text-ink-400">
                     <Award className="h-3 w-3 text-deep" /> Skill score <span className="ml-auto">91</span>
                   </div>
@@ -258,7 +261,7 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center">
-                  <p className="text-3xl font-black tracking-[-0.04em] text-mint sm:text-4xl">{stat.value}</p>
+                  <p className="text-3xl font-black tracking-[-0.04em] text-gold sm:text-4xl">{stat.value}</p>
                   <p className="mt-1.5 text-xs font-bold uppercase tracking-[0.12em] text-white/50">{stat.label}</p>
                 </div>
               ))}
@@ -318,24 +321,24 @@ export default function Home() {
           <div className="mt-14 grid gap-6 lg:grid-cols-4">
             {clientSteps.map((step, index) => (
               <Fragment key={step.title}>
-                <div className="relative rounded-2xl border border-ink-100 bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-mint-200 hover:shadow-card-hover">
+                <div className="relative rounded-2xl border border-ink-100 bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-gold-200 hover:shadow-card-hover">
                   {index < clientSteps.length - 1 && (
-                    <span className="absolute -right-[14px] top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-mint text-white shadow-glow lg:grid"><ArrowRight className="h-3.5 w-3.5" /></span>
+                    <span className="absolute -right-[14px] top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 place-items-center rounded-full bg-gold text-deep shadow-gold lg:grid"><ArrowRight className="h-3.5 w-3.5" /></span>
                   )}
-                  <span className="text-xs font-black uppercase tracking-[0.2em] text-mint-700">{step.step}</span>
-                  <span className="mt-5 grid h-12 w-12 place-items-center rounded-2xl bg-mint-50 text-mint-700"><step.icon className="h-6 w-6" /></span>
+                  <span className="text-xs font-black uppercase tracking-[0.2em] text-gold-700">{step.step}</span>
+                  <span className="mt-5 grid h-12 w-12 place-items-center rounded-2xl bg-gold-50 text-gold-700"><step.icon className="h-6 w-6" /></span>
                   <h3 className="mt-5 text-xl font-black text-ink">{step.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-ink-500">{step.body}</p>
                 </div>
                 {index < clientSteps.length - 1 && (
-                  <div className="flex justify-center lg:hidden"><ArrowDown className="my-1 h-5 w-5 text-mint-700" /></div>
+                  <div className="flex justify-center lg:hidden"><ArrowDown className="my-1 h-5 w-5 text-gold-700" /></div>
                 )}
               </Fragment>
             ))}
           </div>
           <div className="mt-12 flex flex-wrap justify-center gap-3">
-            <Link href="/post" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-mint px-6 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Post a job <ArrowRight className="h-4 w-4" /></Link>
-            <Link href="/#talent" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-deep/20 bg-white px-6 text-sm font-extrabold text-deep transition hover:bg-mint-50"><SearchCheck className="h-4 w-4" /> Find freelancers</Link>
+            <Link href="/post" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gold px-6 text-sm font-extrabold text-deep shadow-gold transition hover:bg-gold-500">Post a job <ArrowRight className="h-4 w-4" /></Link>
+            <Link href="/#talent" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-gold-600/40 bg-white px-6 text-sm font-extrabold text-deep transition hover:bg-gold-50"><SearchCheck className="h-4 w-4" /> Find freelancers</Link>
           </div>
         </div>
       </section>
@@ -355,15 +358,15 @@ export default function Home() {
                   <Fragment key={step.label}>
                     <div className="flex w-28 shrink-0 flex-col items-center text-center">
                       <div className="relative">
-                        <span className={`grid h-14 w-14 place-items-center rounded-full border-2 shadow-card ${index === 0 ? "border-mint bg-mint text-white" : "border-mint-200 bg-white text-deep"}`}>
+                        <span className={`grid h-14 w-14 place-items-center rounded-full border-2 shadow-card ${index === 0 ? "border-gold bg-gold text-deep" : "border-gold-200 bg-white text-deep"}`}>
                           <step.icon className="h-6 w-6" />
                         </span>
-                        {index === 0 && <span className="absolute -inset-1.5 -z-10 animate-pulse-soft rounded-full bg-mint/25" />}
+                        {index === 0 && <span className="absolute -inset-1.5 -z-10 animate-pulse-soft rounded-full bg-gold/25" />}
                       </div>
-                      <p className="mt-3 text-xs font-extrabold text-ink-600"><span className="text-mint-700">{index + 1}.</span> {step.label}</p>
+                      <p className="mt-3 text-xs font-extrabold text-ink-600"><span className="text-gold-700">{index + 1}.</span> {step.label}</p>
                     </div>
                     {index < journey.length - 1 && (
-                      <div className="mx-1 h-0.5 min-w-0 flex-1 rounded-full bg-gradient-to-r from-mint to-mint-200" />
+                      <div className="mx-1 h-0.5 min-w-0 flex-1 rounded-full bg-gradient-to-r from-gold to-gold-200" />
                     )}
                   </Fragment>
                 ))}
@@ -371,7 +374,7 @@ export default function Home() {
             </div>
             <div className="mt-10 flex flex-col items-center gap-4 border-t border-ink-100 pt-8 sm:flex-row sm:justify-between">
               <p className="max-w-md text-center text-sm font-medium leading-6 text-ink-500 sm:text-left">Every completed project improves your trust score, ranking, and earning power.</p>
-              <Link href="/signup" className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-xl bg-mint px-6 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Start freelancing <ArrowRight className="h-4 w-4" /></Link>
+              <Link href="/signup" className="inline-flex min-h-12 shrink-0 items-center gap-2 rounded-xl bg-gold px-6 text-sm font-extrabold text-deep shadow-gold transition hover:bg-gold-500">Start freelancing <ArrowRight className="h-4 w-4" /></Link>
             </div>
           </div>
         </div>
@@ -380,24 +383,24 @@ export default function Home() {
       {/* AI Section */}
       <section id="ai" className="relative bg-deep py-24 text-white">
         <div className="pointer-events-none absolute inset-0 soft-grid opacity-60" />
-        <div className="pointer-events-none absolute -left-32 top-10 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
-        <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-mint/10 blur-3xl" />
+        <div className="pointer-events-none absolute -left-32 top-10 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-gold/10 blur-3xl" />
         <div className="page-shell relative">
           <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-mint"><Sparkles className="h-3.5 w-3.5" /> TQRA AI features</span>
+            <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-gold"><Sparkles className="h-3.5 w-3.5" /> TQRA AI features</span>
             <h2 className="mt-5 text-4xl font-black tracking-[-0.045em] sm:text-5xl">AI That Works for You.</h2>
             <p className="mt-4 text-base font-medium leading-7 text-white/60">TQRA AI is built into every part of Parwaz.pk — from the first assessment to the final payment.</p>
           </div>
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
             {aiCards.map((card) => (
               <div key={card.title} className="rounded-2xl border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.1]">
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-mint/15 text-mint"><card.icon className="h-6 w-6" /></span>
+                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gold/15 text-gold"><card.icon className="h-6 w-6" /></span>
                 <h3 className="mt-5 text-lg font-black text-white">{card.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-white/60">{card.body}</p>
               </div>
             ))}
           </div>
-          <p className="mt-12 text-center text-xs font-bold uppercase tracking-[0.14em] text-white/35">Every match, ranking, and review runs through TQRA AI.</p>
+          <p className="mt-12 text-center text-xs font-bold uppercase tracking-[0.14em] text-gold/45">Every match, ranking, and review runs through TQRA AI.</p>
         </div>
       </section>
 
@@ -432,7 +435,7 @@ export default function Home() {
               <div key={person.name} className="rounded-2xl border border-ink-100 bg-white p-6 text-center shadow-card transition hover:-translate-y-1 hover:shadow-card-hover">
                 <div className="relative mx-auto h-16 w-16">
                   <span className="grid h-16 w-16 place-items-center rounded-2xl bg-deep text-xl font-black text-white">{person.avatar}</span>
-                  <span className="absolute -bottom-1 -right-1 grid h-7 w-7 place-items-center rounded-full bg-mint text-[10px] font-black text-white ring-2 ring-white">{person.trust}</span>
+                  <span className="absolute -bottom-1 -right-1 grid h-7 w-7 place-items-center rounded-full bg-gold text-[10px] font-black text-deep ring-2 ring-white">{person.trust}</span>
                 </div>
                 <h3 className="mt-4 font-black text-ink">{person.name}</h3>
                 <p className="mt-1 text-xs font-bold text-ink-400">{person.title} · {person.city}</p>
@@ -441,7 +444,7 @@ export default function Home() {
                   <span>·</span>
                   <span>{person.jobs} jobs done</span>
                 </div>
-                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-mint-50 px-3 py-1.5 text-[11px] font-extrabold text-deep"><BadgeCheck className="h-3 w-3" /> {person.tag}</div>
+                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-gold-50 px-3 py-1.5 text-[11px] font-extrabold text-deep"><BadgeCheck className="h-3 w-3 text-gold-700" /> {person.tag}</div>
               </div>
             ))}
           </div>
@@ -453,14 +456,14 @@ export default function Home() {
         <div className="page-shell">
           <div className="relative overflow-hidden rounded-[28px] bg-deep p-10 text-center text-white shadow-elevated sm:p-16">
             <div className="pointer-events-none absolute inset-0 soft-grid opacity-50" />
-            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-mint/15 blur-3xl" />
+            <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gold/15 blur-3xl" />
             <div className="relative">
-              <span className="inline-flex items-center gap-2 rounded-full border border-mint-300/30 bg-mint/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-mint"><Sparkles className="h-3.5 w-3.5" /> Ready when you are</span>
-              <h2 className="mx-auto mt-6 max-w-2xl text-balance text-4xl font-black tracking-[-0.045em] sm:text-6xl">Your next project is <span className="text-mint">AI-matched.</span></h2>
+              <span className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.16em] text-gold"><Sparkles className="h-3.5 w-3.5" /> Ready when you are</span>
+              <h2 className="mx-auto mt-6 max-w-2xl text-balance text-4xl font-black tracking-[-0.045em] sm:text-6xl">Your next project is <span className="text-gold">AI-matched.</span></h2>
               <p className="mx-auto mt-5 max-w-xl text-base font-medium text-white/65">Join free, verify your skills with TQRA AI, and get matched with work you&apos;re great at — from both sides of the table.</p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Link href="/#talent" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-mint px-7 text-sm font-extrabold text-white shadow-glow transition hover:bg-mint-dark">Find Freelancers <ArrowRight className="h-4 w-4" /></Link>
-                <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-7 text-sm font-bold text-white transition hover:bg-white/15"><UserPlus className="h-4 w-4" /> Start Freelancing</Link>
+                <Link href="/#talent" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gold px-7 text-sm font-extrabold text-deep shadow-gold transition hover:bg-gold-500">Find Freelancers <ArrowRight className="h-4 w-4" /></Link>
+                <Link href="/signup" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gold px-7 text-sm font-extrabold text-deep shadow-gold transition hover:bg-gold-500"><UserPlus className="h-4 w-4" /> Start Freelancing</Link>
               </div>
             </div>
           </div>

@@ -57,7 +57,7 @@ export default function Navbar() {
           {user ? (
             <>
               {canPost && (
-                <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-mint px-5 text-sm font-bold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-mint-dark">
+                <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gold px-5 text-sm font-bold text-deep shadow-gold transition hover:-translate-y-0.5 hover:bg-gold-500">
                   <Plus className="h-4 w-4" /> Post a Job
                 </Link>
               )}
@@ -87,7 +87,7 @@ export default function Navbar() {
             <>
               <Link href="/login" onClick={close} className="inline-flex min-h-11 items-center rounded-xl border border-white/20 px-5 text-sm font-bold text-white transition hover:bg-white/10">Log In</Link>
               <Link href="/signup" onClick={close} className="inline-flex min-h-11 items-center rounded-xl border border-white/20 bg-white/10 px-5 text-sm font-bold text-white transition hover:bg-white/15">Sign Up</Link>
-              <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-mint px-5 text-sm font-extrabold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-mint-dark"><Plus className="h-4 w-4" /> Post a Job</Link>
+              <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gold px-5 text-sm font-extrabold text-deep shadow-gold transition hover:-translate-y-0.5 hover:bg-gold-500"><Plus className="h-4 w-4" /> Post a Job</Link>
             </>
           )}
         </div>
@@ -116,7 +116,7 @@ export default function Navbar() {
           <div className="mt-3 flex flex-col gap-2 border-t border-white/10 pt-3">
             {user ? (
               <>
-                {canPost && <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-mint px-5 text-sm font-extrabold text-white"><Plus className="h-4 w-4" /> Post a Job</Link>}
+                {canPost && <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-gold px-5 text-sm font-extrabold text-deep shadow-gold"><Plus className="h-4 w-4" /> Post a Job</Link>}
                 <Link href="/wallet" onClick={close} className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/20 px-5 text-sm font-bold text-white">Wallet</Link>
                 <Link href="/profile" onClick={close} className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/20 px-5 text-sm font-bold text-white">Profile</Link>
                 <button onClick={() => { signOut(); close(); }} className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/20 px-5 text-sm font-bold text-red-300">Sign out</button>
@@ -125,7 +125,7 @@ export default function Navbar() {
               <>
                 <Link href="/login" onClick={close} className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/20 px-5 text-sm font-bold text-white">Log In</Link>
                 <Link href="/signup" onClick={close} className="inline-flex min-h-11 items-center justify-center rounded-xl border border-white/20 bg-white/10 px-5 text-sm font-bold text-white">Sign Up</Link>
-                <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-mint px-5 text-sm font-extrabold text-white"><Plus className="h-4 w-4" /> Post a Job</Link>
+                <Link href="/post" onClick={close} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-gold px-5 text-sm font-extrabold text-deep shadow-gold"><Plus className="h-4 w-4" /> Post a Job</Link>
               </>
             )}
           </div>

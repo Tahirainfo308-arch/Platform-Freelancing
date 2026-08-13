@@ -33,7 +33,7 @@ export default function Footer() {
               Pakistan&apos;s smarter freelancing marketplace — verified talent, AI-powered matching, and secure payments for every project.
             </p>
             <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-bold text-white/70">
-              <ShieldCheck className="h-4 w-4 text-mint" /> Escrow-protected payments
+              <ShieldCheck className="h-4 w-4 text-gold" /> Escrow-protected payments
             </div>
           </div>
 
@@ -55,7 +55,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xs font-extrabold uppercase tracking-[0.16em] text-white/40">Powered by TQRA AI</h3>
             <p className="mt-4 text-sm leading-6 text-white/60">Smart skill verification, AI matching, and fraud protection keep every hire fair and safe.</p>
-            <Link href="/interview" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-mint px-4 py-3 text-sm font-extrabold text-white transition hover:bg-mint-dark">
+            <Link href="/interview" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-gold px-4 py-3 text-sm font-extrabold text-deep shadow-gold transition hover:bg-gold-500">
               <Sparkles className="h-4 w-4" /> Try the AI Skill Check
             </Link>
           </div>
