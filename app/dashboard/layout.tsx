@@ -94,7 +94,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="absolute inset-0 bg-deep/50 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
           <aside className="relative flex h-full w-[280px] flex-col bg-deep p-4 shadow-elevated">
             <div className="mb-4 flex items-center justify-between px-1">
-              <span className="font-black text-white">Workly</span>
+              <span className="font-black text-white">Parwaz</span>
               <button onClick={() => setMobileOpen(false)} className="grid h-9 w-9 place-items-center rounded-lg text-white/70 hover:bg-white/10" aria-label="Close menu"><span className="text-lg leading-none">&#10005;</span></button>
             </div>
             <div className="flex-1 overflow-y-auto">{nav}</div>

@@ -237,7 +237,7 @@ export default function TaskDetailPage() {
 
       {!user && task.status === "open" && task.visibility === "public" && (
         <div className="mt-6 flex flex-col gap-4 rounded-3xl bg-[#00501F] p-6 text-white sm:flex-row sm:items-center sm:justify-between">
-          <div><h2 className="text-lg font-black">Want to send an offer?</h2><p className="mt-1 text-sm text-white/55">Join Workly to bid, message and receive protected payments.</p></div>
+          <div><h2 className="text-lg font-black">Want to send an offer?</h2><p className="mt-1 text-sm text-white/55">Join Parwaz to bid, message and receive protected payments.</p></div>
           <Link href={`/login?redirect=/tasks/${id}`} className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-5 text-sm font-extrabold text-white">Sign in to bid</Link>
         </div>
       )}

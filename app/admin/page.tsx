@@ -154,7 +154,7 @@ export default function AdminPage() {
     setActionBusy(taskId);
     setError("");
     try {
-      await approveTask(taskId, "public", user.email || "Workly admin");
+      await approveTask(taskId, "public", user.email || "Parwaz admin");
       await load();
     } catch (err: any) {
       setError(err?.message || "Could not approve this task.");
@@ -176,8 +176,8 @@ export default function AdminPage() {
       await approvePrivateTask({
         taskId: task.id!,
         providerId: provider.id,
-        providerName: provider.name || provider.email || "Workly managed provider",
-        approvedBy: user.email || "Workly admin",
+        providerName: provider.name || provider.email || "Parwaz managed provider",
+        approvedBy: user.email || "Parwaz admin",
       });
       await load();
     } catch (err: any) {
@@ -191,7 +191,7 @@ export default function AdminPage() {
     setActionBusy(task.id!);
     setError("");
     try {
-      const token = await approveTask(task.id!, "private", user.email || "Workly admin");
+      const token = await approveTask(task.id!, "private", user.email || "Parwaz admin");
       if (!token) throw new Error("Private token could not be generated.");
       const link = `${window.location.origin}/tasks/${task.id}?invite=${token}`;
       setPrivateInviteLink(link);
@@ -248,7 +248,7 @@ export default function AdminPage() {
             <div className="flex items-center gap-4">
               <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand"><ShieldCheck className="h-7 w-7" /></span>
               <div>
-                <div className="flex items-center gap-2"><h1 className="text-2xl font-black tracking-[-0.03em]">Workly Control</h1><span className="rounded-full bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-brand-300">{session.isOwner ? "Owner" : "Admin"}</span></div>
+                <div className="flex items-center gap-2"><h1 className="text-2xl font-black tracking-[-0.03em]">Parwaz Control</h1><span className="rounded-full bg-white/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-brand-300">{session.isOwner ? "Owner" : "Admin"}</span></div>
                 <p className="mt-1 text-sm font-medium text-white/50">Approvals, people, revenue and platform health.</p>
               </div>
             </div>
@@ -383,7 +383,7 @@ export default function AdminPage() {
                 </div>
                 {allTasks.length === 0 ? <p className="p-8 text-sm text-ink-500">No tasks have been created yet.</p> : <div className="divide-y divide-ink-100">{allTasks.map((task) => (
                   <Link key={task.id} href={`/tasks/${task.id}`} className="grid gap-4 p-5 transition hover:bg-ink-50/70 sm:grid-cols-[minmax(0,1fr)_150px_130px_28px] sm:items-center sm:px-6">
-                    <div className="min-w-0"><p className="truncate text-sm font-black text-ink">{task.title}</p><p className="mt-1 truncate text-xs font-medium text-ink-400">{task.posterName} Ã‚Â· {task.category} Ã‚Â· {task.location}</p></div>
+                    <div className="min-w-0"><p className="truncate text-sm font-black text-ink">{task.title}</p><p className="mt-1 truncate text-xs font-medium text-ink-400">{task.posterName} Ãƒâ€šÃ‚Â· {task.category} Ãƒâ€šÃ‚Â· {task.location}</p></div>
                     <p className="text-sm font-black text-ink">{formatPKR(task.budget)}</p>
                     <div className="flex flex-wrap gap-1.5"><span className="rounded-full bg-ink-50 px-2.5 py-1 text-[10px] font-black uppercase text-ink-500">{task.status.replace("_", " ")}</span><span className={`rounded-full px-2.5 py-1 text-[10px] font-black uppercase ${task.visibility === "private" ? "bg-purple-50 text-purple-700" : "bg-brand-50 text-brand-dark"}`}>{task.visibility}</span></div>
                     <ArrowRight className="h-4 w-4 text-ink-300" />
@@ -399,7 +399,7 @@ export default function AdminPage() {
                   {transactions.length === 0 ? <p className="p-8 text-sm text-ink-500">No transactions recorded yet.</p> : <div className="divide-y divide-ink-100">{transactions.map((item) => (
                     <div key={item.id} className="flex items-center gap-4 p-5 sm:px-6">
                       <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-brand-50 text-brand"><CircleDollarSign className="h-5 w-5" /></span>
-                      <div className="min-w-0 flex-1"><p className="truncate text-sm font-black text-ink">{item.note || item.type || "Wallet transaction"}</p><p className="mt-1 truncate text-xs font-medium text-ink-400">User: {item.userId || "Ã¢â‚¬â€"}{item.taskId ? ` Ã‚Â· Task: ${item.taskId}` : ""}</p></div>
+                      <div className="min-w-0 flex-1"><p className="truncate text-sm font-black text-ink">{item.note || item.type || "Wallet transaction"}</p><p className="mt-1 truncate text-xs font-medium text-ink-400">User: {item.userId || "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"}{item.taskId ? ` Ãƒâ€šÃ‚Â· Task: ${item.taskId}` : ""}</p></div>
                       <div className="text-right"><p className="text-sm font-black text-ink">{formatPKR(Number(item.amount) || 0)}</p><p className="mt-1 text-[10px] font-black uppercase text-ink-400">{item.type || "entry"}</p></div>
                     </div>
                   ))}</div>}
@@ -471,7 +471,7 @@ function AutoApproveControl({ onChanged }: { onChanged: () => void }) {
     <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
       <section className="surface p-6 sm:p-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex gap-4"><span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand"><Zap className="h-5 w-5" /></span><div><p className="text-[10px] font-black uppercase tracking-[0.15em] text-brand-dark">Publishing policy</p><h2 className="mt-1 text-xl font-black text-ink">Smart auto-approval</h2><p className="mt-2 max-w-xl text-sm leading-6 text-ink-500">When enabled, every new task passes Workly&apos;s AI quality and safety screen. High-confidence tasks go public instantly; uncertain or risky content still enters the manual queue.</p></div></div>
+          <div className="flex gap-4"><span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand-50 text-brand"><Zap className="h-5 w-5" /></span><div><p className="text-[10px] font-black uppercase tracking-[0.15em] text-brand-dark">Publishing policy</p><h2 className="mt-1 text-xl font-black text-ink">Smart auto-approval</h2><p className="mt-2 max-w-xl text-sm leading-6 text-ink-500">When enabled, every new task passes Parwaz&apos;s AI quality and safety screen. High-confidence tasks go public instantly; uncertain or risky content still enters the manual queue.</p></div></div>
           <button type="button" onClick={toggle} disabled={busy} aria-pressed={enabled} className={`relative h-8 w-14 shrink-0 rounded-full transition ${enabled ? "bg-brand" : "bg-ink-200"}`}><span className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow-sm transition ${enabled ? "left-7" : "left-1"}`} /></button>
         </div>
         <div className="mt-7 grid gap-3 sm:grid-cols-3">
@@ -531,7 +531,7 @@ function ManageAdmins({ admins, ownerEmail, onChanged }: { admins: any[]; ownerE
   };
 
   const remove = async (uid: string) => {
-    if (!confirm("Remove this admin from Workly Control?")) return;
+    if (!confirm("Remove this admin from Parwaz Control?")) return;
     await removeAdmin(uid);
     onChanged();
   };

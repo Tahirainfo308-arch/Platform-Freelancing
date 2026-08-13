@@ -290,7 +290,7 @@ export async function selectBid(
     if (!taskSnap.exists()) throw new Error("Task not found.");
     const task = taskSnap.data() as Task;
     if (task.status !== "open") throw new Error("This task is no longer open.");
-    if (task.visibility !== "public") throw new Error("Private tasks are assigned by the Workly team.");
+    if (task.visibility !== "public") throw new Error("Private tasks are assigned by the Parwaz team.");
 
     const posterRef = doc(database, "users", task.posterId);
     const posterSnap = await transaction.get(posterRef);
@@ -406,7 +406,7 @@ export async function approveTask(
     visibility,
     approvalMode: "manual",
     approvedAt: serverTimestamp(),
-    approvedBy: approvedBy || "Workly team",
+    approvedBy: approvedBy || "Parwaz team",
     approvalNote: visibility === "public" ? "Approved for the public marketplace" : "Approved for private invitation",
     ...(shareToken ? { shareToken } : {}),
   });
@@ -476,7 +476,7 @@ export async function approvePrivateTask(input: {
       bidderId: input.providerId,
       bidderName: input.providerName,
       amount: taskData.budget,
-      message: "Managed private fulfilment by a Workly verified provider.",
+      message: "Managed private fulfilment by a Parwaz verified provider.",
       status: "selected",
       isManaged: true,
       createdAt: serverTimestamp(),
@@ -494,7 +494,7 @@ export async function approvePrivateTask(input: {
       paymentReleased: false,
       approvedAt: serverTimestamp(),
       approvedBy: input.approvedBy,
-      approvalNote: "Privately approved and assigned to a Workly managed provider",
+      approvalNote: "Privately approved and assigned to a Parwaz managed provider",
     });
     transaction.set(doc(collection(database, "wallet_txs")), {
       userId: taskData.posterId,

@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(u);
       try {
         if (u && db) {
-        // 1) OWNER is always super_admin — deterministic, never flaky.
+        // 1) OWNER is always super_admin â€” deterministic, never flaky.
         if (u.email && u.email.toLowerCase() === OWNER_EMAIL.toLowerCase()) {
           setRole("super_admin");
           setAdminSession(ownerSession());
@@ -138,7 +138,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setAdminSession(null);
         }
       } catch (error) {
-        console.error("Could not load the signed-in Workly profile", error);
+        console.error("Could not load the signed-in Parwaz profile", error);
         setRole(null);
         setAdminSession(null);
       } finally {
