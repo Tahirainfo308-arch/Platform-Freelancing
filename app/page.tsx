@@ -139,16 +139,16 @@ export default function Home() {
     <div className="overflow-hidden">
       {/* Hero */}
       <section className="relative bg-white text-ink">
-        <div className="relative border-b border-ink-100 bg-canvas">
+        <div className="relative bg-brand">
           <div className="page-shell flex items-center justify-center gap-2 py-2.5">
-            <Sparkles className="h-3.5 w-3.5 text-brand-600" />
-            <p className="text-center text-[11px] font-extrabold uppercase tracking-[0.18em] text-brand-700 sm:text-xs">Pakistan&apos;s AI-powered freelancing marketplace</p>
+            <Sparkles className="h-3.5 w-3.5 text-white" />
+            <p className="text-center text-[11px] font-extrabold uppercase tracking-[0.18em] text-white sm:text-xs">Pakistan&apos;s AI-powered freelancing marketplace</p>
           </div>
         </div>
         <div className="pointer-events-none absolute -left-32 top-24 h-96 w-96 rounded-full bg-brand-50 blur-3xl" />
         <div className="pointer-events-none absolute -right-24 bottom-24 h-96 w-96 rounded-full bg-brand-50 blur-3xl" />
 
-        <div className="page-shell relative py-16 lg:py-24">
+        <div className="page-shell relative pb-16 pt-6 lg:pb-24 lg:pt-8">
           <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="animate-fade-up">
               <h1 className="max-w-3xl text-balance text-[1.75rem] font-bold leading-[1.2] tracking-[-0.02em] text-deep sm:text-[2.125rem] lg:text-[2.375rem]">
