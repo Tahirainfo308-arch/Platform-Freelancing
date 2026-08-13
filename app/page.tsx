@@ -163,7 +163,7 @@ export default function Home() {
                 <Link href="/#talent" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-brand px-7 text-sm font-extrabold text-white shadow-forest transition hover:-translate-y-0.5 hover:bg-brand-700">
                   Find Freelancers <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/signup" className="inline-flex min-h-14 items-center gap-2 rounded-xl border-2 border-deep bg-white px-7 text-sm font-extrabold text-deep transition hover:-translate-y-0.5 hover:bg-deep-50">
+                <Link href="/signup" className="inline-flex min-h-14 items-center gap-2 rounded-xl bg-[#00501F] px-7 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-deep-800">
                   <UserPlus className="h-4 w-4" /> Start Freelancing
                 </Link>
               </div>
