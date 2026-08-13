@@ -18,11 +18,11 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s | Parwaz.pk",
     },
     description,
-    icons: {
-      icon: "/workly-mark.png",
-      shortcut: "/workly-mark.png",
-      apple: "/workly-mark.png",
-    },
+      icons: {
+        icon: "/img/Parwaz.jpeg",
+        shortcut: "/img/Parwaz.jpeg",
+        apple: "/img/Parwaz.jpeg",
+      },
     openGraph: {
       type: "website",
       siteName: "Parwaz.pk",

@@ -12,13 +12,12 @@ export default function BrandLogo({
   className?: string;
 }) {
   return (
-    <Link href={href} aria-label="Parwaz home" className={`inline-flex items-center gap-2.5 ${className}`}>
-      <span className={`grid shrink-0 place-items-center overflow-hidden rounded-2xl ${compact ? "h-10 w-10" : "h-11 w-11"} ${inverted ? "bg-white/10 ring-1 ring-white/20" : "bg-deep shadow-card"}`}>
-        <img src="/workly-mark.png" alt="" className="h-[82%] w-[82%] object-contain" />
-      </span>
-      <span className={`whitespace-nowrap font-black leading-none tracking-[-0.045em] ${compact ? "text-xl" : "text-[22px]"} ${inverted ? "text-white" : "text-deep"}`}>
-        Parwaz<span className={inverted ? "text-brand-300" : "text-brand-600"}>.pk</span>
-      </span>
+    <Link href={href} aria-label="Parwaz home" className={`inline-flex items-center ${className}`}>
+      <img
+        src="/img/Parwaz.jpeg"
+        alt="Parwaz"
+        className={`h-auto w-auto object-contain ${compact ? "h-7 sm:h-8" : "h-9 sm:h-11"} ${inverted ? "opacity-95" : ""}`}
+      />
     </Link>
   );
 }
